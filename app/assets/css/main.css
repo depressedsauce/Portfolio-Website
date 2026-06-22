@@ -1,0 +1,198 @@
+/* ============================================================
+   Mohaimmen Bajwa — Portfolio
+   Theme: Engineer's Graph-Paper / Blueprint
+   ============================================================ */
+
+:root {
+  /* Light "graph paper" palette */
+  --paper: #fbfcfd;
+  --ink: #15202b;
+  --ink-soft: #4a5a6a;
+  --ink-faint: #8a99a8;
+  --grid-minor: rgba(38, 92, 150, 0.10);
+  --grid-major: rgba(38, 92, 150, 0.20);
+  --accent: #0a66c2;        /* blueprint blue */
+  --accent-2: #c2410c;      /* margin-pen orange/red */
+  --accent-3: #047857;      /* green pen */
+  --card: rgba(255, 255, 255, 0.72);
+  --card-border: rgba(21, 32, 43, 0.18);
+  --shadow: 0 1px 0 rgba(21, 32, 43, 0.04), 0 12px 30px -18px rgba(10, 102, 194, 0.30);
+
+  --grid-size: 26px;
+  --maxw: 1080px;
+
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', monospace;
+  --font-body: 'Inter', system-ui, sans-serif;
+}
+
+:root[data-theme='blueprint'] {
+  /* Dark "blueprint" palette */
+  --paper: #071426;
+  --ink: #e8f1fb;
+  --ink-soft: #9db4cc;
+  --ink-faint: #5d748c;
+  --grid-minor: rgba(120, 180, 255, 0.10);
+  --grid-major: rgba(120, 180, 255, 0.22);
+  --accent: #5aa9ff;
+  --accent-2: #ff9e6d;
+  --accent-3: #5fe3a1;
+  --card: rgba(12, 30, 54, 0.55);
+  --card-border: rgba(120, 180, 255, 0.28);
+  --shadow: 0 1px 0 rgba(0,0,0,0.2), 0 18px 40px -20px rgba(0, 0, 0, 0.7);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--ink);
+  background-color: var(--paper);
+  /* The graph paper: fine minor grid + bolder major grid every 4 cells */
+  background-image:
+    linear-gradient(var(--grid-minor) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-minor) 1px, transparent 1px),
+    linear-gradient(var(--grid-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-major) 1px, transparent 1px);
+  background-size:
+    var(--grid-size) var(--grid-size),
+    var(--grid-size) var(--grid-size),
+    calc(var(--grid-size) * 4) calc(var(--grid-size) * 4),
+    calc(var(--grid-size) * 4) calc(var(--grid-size) * 4);
+  background-position: -1px -1px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a { color: inherit; }
+
+::selection { background: var(--accent); color: #fff; }
+
+/* ---------- Layout ---------- */
+.wrap {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 clamp(18px, 5vw, 48px);
+}
+
+section { padding: clamp(48px, 9vh, 96px) 0; }
+
+/* ---------- Shared type ---------- */
+.mono { font-family: var(--font-mono); }
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.eyebrow::before {
+  content: '';
+  width: 26px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 30px;
+  border-bottom: 1px dashed var(--card-border);
+  padding-bottom: 14px;
+}
+.section-head .num {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--accent-2);
+}
+.section-head h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(22px, 3.4vw, 34px);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+/* ---------- Sketched card ---------- */
+.card {
+  position: relative;
+  background: var(--card);
+  backdrop-filter: blur(2px);
+  border: 1px solid var(--card-border);
+  border-radius: 4px;
+  box-shadow: var(--shadow);
+  padding: 22px;
+}
+/* corner ticks like a drafting frame */
+.card::before,
+.card::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border: 1.5px solid var(--accent);
+}
+.card::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+.card::after { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+
+/* ---------- Buttons ---------- */
+.btn {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 18px;
+  border: 1.5px solid var(--ink);
+  border-radius: 3px;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform .12s ease, background .15s ease, color .15s ease, border-color .15s;
+}
+.btn:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--accent); }
+.btn--primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn--primary:hover { box-shadow: 4px 4px 0 var(--ink); }
+
+/* ---------- Tag chips ---------- */
+.chip {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 5px 10px;
+  border: 1px solid var(--card-border);
+  border-radius: 3px;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  background: var(--card);
+}
+
+/* ---------- Reveal on scroll ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.reveal.is-visible { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  html { scroll-behavior: auto; }
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 560px) {
+  :root { --grid-size: 22px; }
+  /* let long chips wrap instead of forcing horizontal scroll */
+  .chip { white-space: normal; }
+}
