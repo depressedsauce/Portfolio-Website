@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Mohaimmen Bajwa — Full-Stack Web Developer</title>
+<style>
+  @page { size: letter; margin: 0.6in; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: "Calibri", "Segoe UI", Arial, sans-serif;
+    color: #1f2937;
+    font-size: 10.5pt;
+    line-height: 1.4;
+    max-width: 8.5in;
+    margin: 0 auto;
+    padding: 0.5in 0.6in;
+    background: #fff;
+  }
+  h1 {
+    font-family: "Cambria", Georgia, serif;
+    font-size: 28pt;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin: 0 0 4px 0;
+    text-align: center;
+    color: #111827;
+  }
+  .contact {
+    text-align: center;
+    font-size: 10pt;
+    color: #374151;
+    padding-bottom: 8px;
+    border-bottom: 1.5px solid #111827;
+    margin-bottom: 14px;
+  }
+  .contact a { color: #1d4ed8; text-decoration: none; }
+  h2 {
+    font-family: "Cambria", Georgia, serif;
+    font-variant: small-caps;
+    font-size: 14pt;
+    font-weight: 600;
+    color: #0f3a2e;
+    margin: 14px 0 6px 0;
+    border-bottom: 1px solid #d1d5db;
+    padding-bottom: 2px;
+  }
+  h3 { font-size: 10.5pt; margin: 8px 0 2px 0; color: #0f3a2e; }
+  .role { font-weight: 700; }
+  .meta { color: #6b7280; font-size: 9.5pt; font-style: italic; }
+  .summary { margin: 0 0 8px 0; }
+  ul { margin: 4px 0 8px 18px; padding: 0; }
+  li { margin: 2px 0; }
+  .skill-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 24px; }
+  .stack {
+    background: #f3f4f6;
+    border-left: 3px solid #0f3a2e;
+    padding: 6px 10px;
+    margin: 6px 0 10px 0;
+    font-size: 10pt;
+  }
+  .stack b { color: #0f3a2e; }
+  @media print { body { padding: 0; } }
+</style>
+</head>
+<body>
+
+<h1>MOHAIMMEN BAJWA</h1>
+<div class="contact">
+  Full-Stack Web Developer &nbsp;·&nbsp; Richmond Hill, ON &nbsp;·&nbsp; (647) 969-2300<br>
+  <a href="mailto:mohaimmenbajwa2002@gmail.com">mohaimmenbajwa2002@gmail.com</a>
+</div>
+
+<p class="summary">
+Full-stack web developer with 5+ years of production experience shipping client websites and a current focus on modern Vue/Nuxt + Postgres applications. Designed and built an end-to-end SaaS platform for a multi-location driving school covering authentication, payments, scheduling, document ingestion, and a Capacitor-based Android tracker — all on a single Nuxt 4 codebase backed by Supabase Postgres with row-level security.
+</p>
+
+<h2>Technical Skills</h2>
+<div class="skill-grid">
+  <div><b>Languages:</b> TypeScript, JavaScript, SQL (Postgres), PHP, Python, HTML5, CSS3</div>
+  <div><b>Frontend:</b> Vue 3, Nuxt 4, Tailwind CSS v4, Nuxt UI, Vite, PWA (Workbox)</div>
+  <div><b>Backend:</b> Nitro server routes, Node.js, REST APIs, Server middleware, Cron jobs</div>
+  <div><b>Database:</b> Supabase / Postgres, Row-Level Security, JWT custom claims, SQL migrations</div>
+  <div><b>Auth &amp; Security:</b> Supabase Auth, CSRF, CSP w/ nonce + strict-dynamic, rate-limiting, reCAPTCHA v3</div>
+  <div><b>Integrations:</b> Moneris Hosted Checkout, Resend, IMAP (imapflow), Leaflet, Capacitor 6</div>
+  <div><b>Tooling:</b> Git, Supabase CLI, ESLint, Playwright, pnpm/npm, VS Code, Claude Code</div>
+  <div><b>WordPress:</b> Elementor, Divi, WP Rocket, Wordfence, UpdraftPlus, All-in-One SEO</div>
+</div>
+
+<h2>Featured Project — Driving Headquarters Platform <span class="meta">(2022 — Present)</span></h2>
+<div class="stack"><b>Stack:</b> Nuxt 4 · Vue 3 · TypeScript · Supabase (Postgres + Auth + Storage + Realtime) · Tailwind v4 · Nitro · Moneris · Resend · Capacitor 6 · Leaflet</div>
+<p style="margin:0 0 4px 0;">Single-codebase web + mobile platform serving a public marketing site, four authenticated dashboards (student, parent, instructor, admin), a payments + financial-ledger system, an email-driven document-ingest pipeline, and a live GPS lesson tracker.</p>
+<ul>
+  <li>Designed a <b>role-based authorization model</b> enforced in three layers — client route middleware, server <code>requireAuth</code>/<code>requireRole</code> guards, and Postgres RLS policies driven by a JWT custom-claims hook.</li>
+  <li>Built a complete <b>payments pipeline</b> with Moneris Hosted Checkout: server-to-server verify, immutable transaction audit trigger, payment-plan modelling, and an e-Transfer claim/reconciliation workflow.</li>
+  <li>Engineered a <b>document-ingest pipeline</b> that auto-routes forwarded emails (BDE receipts, MTO certificates, driver licences, payment receipts) to the right student via per-document-kind extractors, content-fingerprint dedup, and a fuzzy student matcher.</li>
+  <li>Wrote a <b>live trip tracker</b> using <code>@capacitor-community/background-geolocation</code> as an Android foreground service with offline GPS buffering and Supabase Realtime playback on a Leaflet map.</li>
+  <li>Hardened the public surface with <b>nuxt-security</b> CSP (per-request nonce, strict-dynamic), custom CSRF middleware, IP+session rate limiting, reCAPTCHA v3, honeypot, and dwell-time bot defence.</li>
+  <li>Authored 60+ versioned SQL migrations and adopted the <b>Supabase CLI</b> migrations workflow with a sandboxed local Postgres for safe schema changes against a live prod database.</li>
+  <li>Set up a <b>Playwright-based QA harness</b> that runs a full sandboxed regression pass (auth flows, role gating, RLS/GRANT checks, payment + registration APIs) before any deploy.</li>
+</ul>
+
+<h2>Experience</h2>
+
+<h3><span class="role">Web Developer</span> — Driving Headquarters &nbsp;<span class="meta">| Sept 2019 — Present</span></h3>
+<ul>
+  <li>Sole developer of <a href="https://drivingheadquarters.ca/">drivingheadquarters.ca</a> — built and continue to maintain the marketing site, payments, content, and full custom Nuxt + Supabase platform above.</li>
+  <li>Originally delivered the site on WordPress with Elementor, then migrated to a modern Nuxt 4 / Supabase architecture as the business grew into a real LMS.</li>
+  <li>Own performance, SEO, security headers, backups, and uptime.</li>
+</ul>
+
+<h3><span class="role">Web Developer</span> — Tamil Heritage Month &nbsp;<span class="meta">| Dec 2022 — Present</span></h3>
+<ul>
+  <li>Built <a href="https://tamilheritagemonth.com/">tamilheritagemonth.com</a> end-to-end in Divi theme builder.</li>
+  <li>Migrated the domain to a new hosting provider, including DNS/nameserver cutover and post-transfer troubleshooting.</li>
+</ul>
+
+<h3><span class="role">Web Developer</span> — LSAYork &nbsp;<span class="meta">| Nov 2022 — Present</span></h3>
+<ul>
+  <li>Built lsayork.ga on a zero-budget brief — sourced free hosting + domain and delivered a fully working site.</li>
+</ul>
+
+<h3><span class="role">Web Development Intern</span> — 7th Pixel &nbsp;<span class="meta">| Jun 2019 — Aug 2019</span></h3>
+<ul>
+  <li>Contributed to client website builds using HTML and PHP; assisted with MySQL data management tasks.</li>
+</ul>
+
+<h2>Education</h2>
+<p style="margin:2px 0;"><b>B.Sc. Biotechnology</b> — York University, Toronto &nbsp;<span class="meta">| 2021 — Present</span></p>
+<p style="margin:2px 0;"><b>High School Diploma</b> — Bayview Secondary School, Richmond Hill, ON &nbsp;<span class="meta">| 2016 — 2020</span></p>
+
+<h2>Additional</h2>
+<ul>
+  <li>Speak four languages including English.</li>
+  <li>Comfortable working with AI coding assistants (Claude Code) and modern AI-augmented development workflows.</li>
+</ul>
+
+</body>
+</html>
