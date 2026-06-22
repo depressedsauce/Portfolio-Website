@@ -16,9 +16,9 @@ export const profile = {
 
 export const stats = [
   { value: '6+', label: 'years shipping for clients' },
-  { value: '4', label: 'live production sites' },
-  { value: '60+', label: 'SQL migrations authored' },
-  { value: '40+', label: 'reusable Vue components' }
+  { value: '2', label: 'live production platforms' },
+  { value: '10+', label: 'integrated services orchestrated' },
+  { value: '3', label: 'layers of access control' }
 ]
 
 export interface Skill {
@@ -244,10 +244,12 @@ export const projects: Project[] = [
       }
     ],
     gallery: [
-      { fig: 'fig. 01', src: '', caption: 'Student dashboard — lessons, skills rubric & progress' },
-      { fig: 'fig. 02', src: '', caption: 'Live GPS trip map — Leaflet + Supabase Realtime playback' },
-      { fig: 'fig. 03', src: '', caption: 'Admin inbox — email-driven document ingest queue' },
-      { fig: 'fig. 04', src: '', caption: 'Payments & financial ledger — Moneris + audit trail' }
+      { fig: 'fig. 01', src: '/shots/dhq/student-console.png', caption: 'Student console — the gamified “driver dossier” dashboard' },
+      { fig: 'fig. 02', src: '/shots/dhq/admin-dashboard.png', caption: 'Admin dashboard — revenue, balances & what needs attention' },
+      { fig: 'fig. 03', src: '/shots/dhq/admin-email-intake.png', caption: 'Email intake — the human-reviewed document-ingest queue' },
+      { fig: 'fig. 04', src: '/shots/dhq/admin-registrations.png', caption: 'Registrations — public-site leads triaged to enrolment (PII redacted)' },
+      { fig: 'fig. 05', src: '/shots/dhq/admin-analytics.png', caption: 'Analytics — period KPIs and lifetime metrics' },
+      { fig: 'fig. 06', src: '/shots/dhq/student-field-guide.png', caption: 'Student console, themed — the dashboard is fully themeable' }
     ]
   },
   {
