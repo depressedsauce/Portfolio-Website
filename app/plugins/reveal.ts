@@ -23,6 +23,15 @@ export default defineNuxtPlugin((nuxtApp) => {
     getSSRProps() {
       return { class: 'reveal' }
     },
+    // Runs before hydration compares props. getSSRProps already put `reveal`
+    // in the server markup; without this the client vdom would lack it and
+    // every revealed element would report a class mismatch.
+    created(_el, _binding, vnode) {
+      const existing = vnode.props?.class
+      const merged = existing ? `${existing} reveal` : 'reveal'
+      if (vnode.props) vnode.props.class = merged
+      else vnode.props = { class: merged }
+    },
     mounted(el: HTMLElement, binding) {
       el.classList.add('reveal')
       if (binding.value) el.style.transitionDelay = `${binding.value}ms`

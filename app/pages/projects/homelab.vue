@@ -31,31 +31,31 @@ const activeSection = useScrollSpy(toc.map((t) => t.id))
 // Gateway address and firewall version detail are masked, not blurred.
 const shots = [
   {
-    src: '/shots/homelab/datacenter-manager.png',
+    src: '/shots/homelab/datacenter-manager.webp',
     w: 1124,
     h: 916,
     cap: 'Datacenter Manager — five standalone nodes and every guest in one view, with none of the quorum a cluster would demand.'
   },
   {
-    src: '/shots/homelab/opnsense.png',
+    src: '/shots/homelab/opnsense.webp',
     w: 1329,
     h: 500,
     cap: 'OPNsense — the lab’s own gateway. WAN and LAN ride physically separate NICs; the gateway address and version detail are redacted.'
   },
   {
-    src: '/shots/homelab/proxmox-node.png',
+    src: '/shots/homelab/proxmox-node.webp',
     w: 1914,
     h: 706,
     cap: 'pve1 — DNS, reverse proxy and the manager VM, with guest storage on its own NVMe pool separate from the boot disk.'
   },
   {
-    src: '/shots/homelab/backup-server.png',
+    src: '/shots/homelab/backup-server.webp',
     w: 1915,
     h: 715,
     cap: 'Backup Server — a 290 GB datastore on a dedicated node, with the router and manager VMs backing up nightly.'
   },
   {
-    src: '/shots/homelab/adguard.png',
+    src: '/shots/homelab/adguard.webp',
     w: 652,
     h: 699,
     cap: 'AdGuard Home — 13,316 queries in 24 hours, 21% blocked, 10 ms average. The evidence the design is actually carrying traffic.'
