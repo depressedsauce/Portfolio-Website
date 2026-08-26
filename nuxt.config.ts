@@ -24,12 +24,28 @@ export default defineNuxtConfig({
         },
         { property: 'og:type', content: 'website' }
       ],
+      // Resolve the theme before first paint so there is no flash of the
+      // wrong sheet. Mirrors the logic in TheHeader.vue.
+      script: [
+        {
+          tagPosition: 'head',
+          innerHTML: `(function(){try{var d=document.documentElement,ls=localStorage;` +
+            `var t=ls.getItem('portfolio-theme-name');var m=ls.getItem('portfolio-color-mode');` +
+            `if(!m){var l=ls.getItem('portfolio-theme');if(l==='blueprint')m='dark';else if(l==='light')m='light';}` +
+            `if(!m)m=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';` +
+            `d.setAttribute('data-theme',t==='paper'?'paper':'blueprint');` +
+            `d.setAttribute('data-mode',m==='dark'?'dark':'light');}catch(e){}})()`
+        }
+      ],
       link: [
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
         {
           rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap'
+          href:
+            // Blueprint: Space Grotesk / JetBrains Mono / Inter.
+            // Paper: Lora / Courier Prime / Caveat.
+            'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Courier+Prime:wght@400;700&family=Caveat:wght@500;600;700&display=swap'
         }
       ]
     }
