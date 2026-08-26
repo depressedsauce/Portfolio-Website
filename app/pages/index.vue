@@ -12,35 +12,74 @@ import {
 // The homepage spotlights one project; full detail lives at /projects/<slug>.
 const featured = featuredProject
 
-// Typewriter effect for the hero role. Starts empty, types out one char at a
-// time once the hero has settled (matches the v-reveal delay on the role line).
+// Typewriter "wheel" for the hero role: types out a role, holds, erases, then
+// rolls the next role into place and types it — cycling through profile.roles.
+// roleIndex drives the :key on the typed span, so each new role remounts and
+// replays the vertical roll-in animation.
+const roles = profile.roles
 const typedRole = ref('')
-const typingDone = ref(false)
+// Rendered one span per character so each new letter can animate in on its
+// own — on paper that reads as ink landing rather than a key being struck.
+const typedChars = computed(() => Array.from(typedRole.value))
+const roleIndex = ref(0)
+const typingDone = ref(false) // solid cursor while typing/erasing, blinks on hold
 let typeTimer: ReturnType<typeof setTimeout> | undefined
 
+const TYPE_MS = 55 // per-char while typing
+const ERASE_MS = 28 // per-char while erasing (snappier)
+// A hand moves slower than a keyboard, so paper writes at its own pace.
+const HAND_TYPE_MS = 95
+const HAND_ERASE_MS = 45
+const onPaper = () => document.documentElement.getAttribute('data-theme') === 'paper'
+const typePace = () => (onPaper() ? HAND_TYPE_MS : TYPE_MS)
+const erasePace = () => (onPaper() ? HAND_ERASE_MS : ERASE_MS)
+const HOLD_MS = 1500 // pause on a fully-typed role
+const SWAP_MS = 350 // beat after erase, lets the wheel roll-in land
+
 onMounted(() => {
-  const full = profile.role
   const reduced =
     window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
 
   if (reduced) {
-    typedRole.value = full
+    // No motion: show the primary role, no cycling.
+    typedRole.value = profile.role
     typingDone.value = true
     return
   }
 
-  let i = 0
-  const type = () => {
-    if (i <= full.length) {
+  const typeIn = () => {
+    const full = roles[roleIndex.value] ?? ''
+    let i = 0
+    const step = () => {
       typedRole.value = full.slice(0, i)
-      i++
-      typeTimer = setTimeout(type, 55)
-    } else {
-      typingDone.value = true
+      if (i < full.length) {
+        i++
+        typeTimer = setTimeout(step, typePace())
+      } else {
+        typingDone.value = true // start the blink during the hold
+        typeTimer = setTimeout(eraseOut, HOLD_MS)
+      }
     }
+    step()
   }
+
+  const eraseOut = () => {
+    typingDone.value = false
+    const step = () => {
+      if (typedRole.value.length > 0) {
+        typedRole.value = typedRole.value.slice(0, -1)
+        typeTimer = setTimeout(step, erasePace())
+      } else {
+        // Advance to the next role — remounts the span and rolls it in.
+        roleIndex.value = (roleIndex.value + 1) % roles.length
+        typeTimer = setTimeout(typeIn, SWAP_MS)
+      }
+    }
+    step()
+  }
+
   // Small lead-in so the name lands before the role starts typing.
-  typeTimer = setTimeout(type, 400)
+  typeTimer = setTimeout(typeIn, 400)
 })
 
 onBeforeUnmount(() => clearTimeout(typeTimer))
@@ -51,15 +90,21 @@ onBeforeUnmount(() => clearTimeout(typeTimer))
   <section class="hero">
     <div class="wrap hero__grid">
       <div class="hero__main">
-        <p class="eyebrow" v-reveal>// portfolio.v1 — {{ profile.location }}</p>
+        <p class="eyebrow" v-reveal><span class="only-code">//</span>{{ profile.location }}</p>
         <h1 class="hero__name" v-reveal="80">{{ profile.name }}</h1>
         <p class="hero__role mono" v-reveal="140">
-          <span class="hero__caret">&gt;</span> {{ typedRole
-          }}<span
-            class="hero__cursor"
+          <span class="hero__caret only-code">&gt;</span><span
+            class="hero__roll"
+            :key="roleIndex"
+          ><span v-for="(ch, i) in typedChars" :key="i" class="hero__ch">{{ ch }}</span></span><span
+            class="hero__cursor only-code"
             :class="{ 'hero__cursor--blink': typingDone }"
             aria-hidden="true"
-          >_</span>
+          >_</span><span
+            class="hero__nib only-hand"
+            :class="{ 'hero__nib--rest': typingDone }"
+            aria-hidden="true"
+          />
         </p>
         <p class="hero__tag" v-reveal="200">{{ profile.tagline }}</p>
 
@@ -79,7 +124,9 @@ onBeforeUnmount(() => clearTimeout(typeTimer))
 
       <!-- "spec sheet" -->
       <aside class="hero__spec card" v-reveal="200">
-        <p class="spec__title mono">// spec_sheet.json</p>
+        <p class="spec__title mono">
+          <span class="only-code">// spec_sheet.json</span><span class="only-hand">at a glance</span>
+        </p>
         <dl class="spec__list mono">
           <div><dt>role</dt><dd>{{ profile.role }}</dd></div>
           <div><dt>based</dt><dd>{{ profile.location }}</dd></div>
@@ -232,7 +279,7 @@ onBeforeUnmount(() => clearTimeout(typeTimer))
   <section id="contact" class="contact">
     <div class="wrap">
       <div class="card contact__card" v-reveal>
-        <p class="eyebrow">// let's build something</p>
+        <p class="eyebrow"><span class="only-code">//</span>let's build something</p>
         <h2 class="contact__h">Looking to hire a developer who ships?</h2>
         <p class="contact__p">
           I'm available for full-stack, frontend, or cloud roles. The fastest way to reach me is email.
@@ -278,8 +325,29 @@ onBeforeUnmount(() => clearTimeout(typeTimer))
   font-size: clamp(16px, 2.4vw, 22px);
   color: var(--accent);
   margin: 0 0 18px;
+  /* Perspective so each role slot rolls in like a 3D wheel. */
+  perspective: 420px;
 }
 .hero__caret { color: var(--accent-2); }
+/* Each new role remounts (keyed on roleIndex) and rolls down into place. */
+.hero__roll {
+  display: inline-block;
+  transform-origin: top center;
+  animation: hero-wheel-in 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes hero-wheel-in {
+  from {
+    transform: translateY(-0.55em) rotateX(-88deg);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) rotateX(0);
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__roll { animation: none; }
+}
 .hero__cursor {
   color: var(--accent-2);
   font-weight: 700;
@@ -293,6 +361,45 @@ onBeforeUnmount(() => clearTimeout(typeTimer))
 @media (prefers-reduced-motion: reduce) {
   .hero__cursor--blink { animation: none; }
 }
+/* Per-letter spans need to keep their spaces. */
+.hero__roll { white-space: pre; }
+
+/* ---------- Paper: the role is written, not typed ----------
+   Script face, no prompt, no wheel-roll, and each letter settles onto the
+   page like ink instead of snapping in like a keystroke. */
+:root[data-theme='paper'] .hero__role {
+  font-family: var(--font-hand);
+  font-size: clamp(26px, 4vw, 36px);
+}
+:root[data-theme='paper'] .hero__roll { animation: none; }
+:root[data-theme='paper'] .hero__ch { animation: hero-ink-in 0.26s ease-out both; }
+@keyframes hero-ink-in {
+  from { opacity: 0; filter: blur(1.6px); transform: translateY(0.08em); }
+  to { opacity: 1; filter: blur(0); transform: none; }
+}
+
+/* The pen itself: a nib-width stroke held at a writing angle. It lifts off
+   the page when the word is finished rather than blinking like a caret. */
+.hero__nib {
+  width: 2px;
+  height: 0.9em;
+  margin-left: 4px;
+  border-radius: 2px;
+  background: var(--accent-2);
+  rotate: 14deg;
+  vertical-align: -0.1em;
+}
+:root[data-theme='paper'] .hero__nib { display: inline-block; }
+.hero__nib--rest { animation: hero-nib-lift 0.5s ease forwards; }
+@keyframes hero-nib-lift {
+  to { opacity: 0; transform: translateY(-0.3em); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__ch { animation: none; }
+  .hero__nib--rest { animation: none; opacity: 0; }
+}
+
 .hero__tag {
   max-width: 52ch;
   color: var(--ink-soft);

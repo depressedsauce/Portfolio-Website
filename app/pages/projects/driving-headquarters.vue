@@ -55,7 +55,7 @@ const shots = [
 
       <!-- hero -->
       <header class="cs__hero">
-        <p class="eyebrow">// case study · architecture &amp; design deep dive</p>
+        <p class="eyebrow"><span class="only-code">//</span>case study · architecture &amp; design deep dive</p>
         <h1 class="cs__title">Driving Headquarters Platform</h1>
         <p class="cs__lede">
           How a multi-location driving school's marketing site grew into a single-codebase

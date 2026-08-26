@@ -3,13 +3,21 @@
 export const profile = {
   name: 'Mohaimmen Bajwa',
   role: 'Full-Stack Web Developer',
+  // Roles the hero "wheel" cycles through (typed one at a time). The first one
+  // doubles as the canonical `role` above for the spec sheet.
+  roles: [
+    'Full-Stack Web Developer',
+    'AI Engineer',
+    'Cloud & Backend Engineer',
+    'Vue & Nuxt Specialist'
+  ],
   location: 'Richmond Hill, Ontario',
   email: 'mohaimmenbajwa2002@gmail.com',
   phone: '(647) 969-2300',
   github: 'https://github.com/depressedsauce',
   resume: '/Mohaimmen-Bajwa-Resume.pdf',
   tagline:
-    'I build production web apps end-to-end — modern Vue/Nuxt frontends on Supabase Postgres with real auth, payments, and security.',
+    'I build and run production software end-to-end — from Postgres and cloud infrastructure to polished Vue/Nuxt interfaces — and I’m now bringing AI into that stack.',
   summary:
     'Full-stack web developer with 6+ years of production experience shipping client websites, now focused on Vue/Nuxt + Postgres applications. I design and run a multi-tenant SaaS platform covering authentication, payments, scheduling, document ingestion, and a Capacitor-based Android tracker — all on a single Nuxt 4 codebase backed by Supabase Postgres with row-level security.'
 }

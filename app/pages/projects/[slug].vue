@@ -23,7 +23,11 @@ useHead({
 
       <!-- header -->
       <header class="dhead">
-        <p class="eyebrow">// case_study — {{ project.status }}</p>
+        <p class="eyebrow">
+          <span class="only-code">//</span>
+          <span class="only-code">case_study — {{ project.status }}</span>
+          <span class="only-hand">case study — {{ project.status }}</span>
+        </p>
         <h1 class="dhead__title">{{ project.name }}</h1>
         <p class="dhead__meta mono">
           <span>{{ project.role }}</span>

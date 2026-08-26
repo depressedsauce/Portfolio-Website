@@ -1,19 +1,42 @@
 <script setup lang="ts">
 import { nav, profile } from '~/data/portfolio'
 
-const theme = ref<'light' | 'blueprint'>('light')
+// Theme has two independent axes: which sheet (blueprint / paper) and
+// which side of it (light / dark). Both live as data-* on <html>; the
+// inline script in nuxt.config sets them before first paint.
+type ThemeName = 'blueprint' | 'paper'
+type Mode = 'light' | 'dark'
+
+const THEME_KEY = 'portfolio-theme-name'
+const MODE_KEY = 'portfolio-color-mode'
+
+const themes = [
+  { id: 'blueprint' as const, sym: '▦', label: 'blueprint' },
+  { id: 'paper' as const, sym: '▤', label: 'paper' }
+]
+
+const theme = ref<ThemeName>('blueprint')
+const mode = ref<Mode>('light')
 const scrolled = ref(false)
 const menuOpen = ref(false)
 
-function applyTheme(t: 'light' | 'blueprint') {
-  if (t === 'blueprint') document.documentElement.setAttribute('data-theme', 'blueprint')
-  else document.documentElement.removeAttribute('data-theme')
+function applyTheme() {
+  const el = document.documentElement
+  el.setAttribute('data-theme', theme.value)
+  el.setAttribute('data-mode', mode.value)
 }
 
-function toggleTheme() {
-  theme.value = theme.value === 'light' ? 'blueprint' : 'light'
-  applyTheme(theme.value)
-  localStorage.setItem('portfolio-theme', theme.value)
+function setTheme(t: ThemeName) {
+  if (theme.value === t) return
+  theme.value = t
+  applyTheme()
+  localStorage.setItem(THEME_KEY, t)
+}
+
+function toggleMode() {
+  mode.value = mode.value === 'dark' ? 'light' : 'dark'
+  applyTheme()
+  localStorage.setItem(MODE_KEY, mode.value)
 }
 
 function onScroll() {
@@ -21,10 +44,26 @@ function onScroll() {
 }
 
 onMounted(() => {
-  const saved = localStorage.getItem('portfolio-theme') as 'light' | 'blueprint' | null
+  const el = document.documentElement
+  // Prefer whatever the pre-paint script already resolved, so the button
+  // state can never disagree with what is on screen.
+  const domTheme = el.getAttribute('data-theme')
+  const domMode = el.getAttribute('data-mode')
+
+  const savedTheme = localStorage.getItem(THEME_KEY)
+  const savedMode = localStorage.getItem(MODE_KEY)
+  // Older builds stored only 'light' | 'blueprint' under one key, and that
+  // value meant the mode, not the sheet.
+  const legacy = localStorage.getItem('portfolio-theme')
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-  theme.value = saved ?? (prefersDark ? 'blueprint' : 'light')
-  applyTheme(theme.value)
+
+  theme.value = (domTheme === 'paper' || savedTheme === 'paper') ? 'paper' : 'blueprint'
+  mode.value =
+    (domMode as Mode | null) ??
+    (savedMode as Mode | null) ??
+    (legacy === 'blueprint' ? 'dark' : legacy === 'light' ? 'light' : prefersDark ? 'dark' : 'light')
+
+  applyTheme()
   window.addEventListener('scroll', onScroll, { passive: true })
   onScroll()
 })
@@ -73,9 +112,28 @@ const initials = profile.name
             />
           </svg>
         </a>
-        <button class="hdr__toggle mono" :aria-pressed="theme === 'blueprint'" @click="toggleTheme">
-          <span class="hdr__togglesym">{{ theme === 'blueprint' ? '☀' : '✎' }}</span>
-          <span class="hdr__toggletxt">{{ theme === 'blueprint' ? 'paper' : 'blueprint' }}</span>
+        <div class="hdr__seg" role="group" aria-label="Theme">
+          <button
+            v-for="t in themes"
+            :key="t.id"
+            class="hdr__toggle hdr__segbtn mono"
+            :class="{ 'is-on': theme === t.id }"
+            :aria-pressed="theme === t.id"
+            :title="`${t.label} theme`"
+            @click="setTheme(t.id)"
+          >
+            <span class="hdr__togglesym" aria-hidden="true">{{ t.sym }}</span>
+            <span class="hdr__toggletxt">{{ t.label }}</span>
+          </button>
+        </div>
+        <button
+          class="hdr__toggle mono"
+          :aria-pressed="mode === 'dark'"
+          :title="mode === 'dark' ? 'Switch to light' : 'Switch to dark'"
+          @click="toggleMode"
+        >
+          <span class="hdr__togglesym" aria-hidden="true">{{ mode === 'dark' ? '☀' : '☾' }}</span>
+          <span class="hdr__toggletxt">{{ mode === 'dark' ? 'light' : 'dark' }}</span>
         </button>
         <button
           class="hdr__burger"
@@ -103,6 +161,14 @@ const initials = profile.name
   backdrop-filter: blur(8px);
   border-bottom: 1px dashed var(--card-border);
 }
+/* Paper has no glass: the bar is a solid strip of the sheet with a ruled
+   edge under it, not a blurred pane. */
+:root[data-theme='paper'] .hdr--scrolled {
+  background: var(--paper);
+  backdrop-filter: none;
+  border-bottom: 2px solid var(--note-edge);
+}
+
 .hdr__bar {
   display: flex;
   align-items: center;
@@ -156,6 +222,22 @@ const initials = profile.name
 }
 .hdr__toggle:hover { border-color: var(--accent); color: var(--accent); }
 
+/* theme picker — two joined cells sharing one outline */
+.hdr__seg { display: inline-flex; }
+.hdr__seg .hdr__segbtn { border-radius: 0; }
+.hdr__seg .hdr__segbtn:first-child { border-radius: 3px 0 0 3px; }
+.hdr__seg .hdr__segbtn:last-child { border-radius: 0 3px 3px 0; border-left-width: 0; }
+.hdr__seg .hdr__segbtn:last-child:hover,
+.hdr__seg .hdr__segbtn:last-child.is-on { border-left-width: 1px; margin-left: -1px; }
+.hdr__segbtn { color: var(--ink-faint); }
+.hdr__segbtn.is-on {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, var(--card));
+}
+.hdr__segbtn.is-on .hdr__togglesym { opacity: 1; }
+.hdr__togglesym { opacity: .85; }
+
 .hdr__icon {
   display: grid;
   place-items: center;
@@ -171,12 +253,20 @@ const initials = profile.name
 
 .hdr__burger { display: none; }
 
-@media (max-width: 760px) {
-  .hdr__name { display: none; }
-  /* icon-only toggle so the burger always fits */
+/* Nav + GitHub + two theme cells + the mode toggle stop fitting well
+   before the burger takes over, so drop the button labels early. */
+@media (max-width: 1080px) {
   .hdr__toggletxt { display: none; }
   .hdr__toggle { padding: 8px 10px; }
-  .hdr__actions { gap: 8px; }
+  .hdr__nav { gap: 16px; }
+}
+
+@media (max-width: 760px) {
+  .hdr__name { display: none; }
+  /* icon-only toggles so the burger always fits */
+  .hdr__toggletxt { display: none; }
+  .hdr__toggle { padding: 8px 9px; }
+  .hdr__actions { gap: 6px; }
   .hdr__nav {
     position: absolute;
     top: 64px;

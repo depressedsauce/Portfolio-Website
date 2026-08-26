@@ -1,10 +1,23 @@
 /* ============================================================
    Mohaimmen Bajwa — Portfolio
-   Theme: Engineer's Graph-Paper / Blueprint
+   Themes: Blueprint (engineer's graph paper) · Paper (ruled notebook)
+
+   Two independent axes live on <html>:
+     data-theme = blueprint | paper   → which palette + paper surface
+     data-mode  = light | dark        → which side of that palette
+   Every palette redefines the full token set, so the two axes never
+   leak into each other. No attributes at all = blueprint / light.
    ============================================================ */
 
 :root {
-  /* Light "graph paper" palette */
+  --grid-size: 26px;
+  --maxw: 1080px;
+}
+
+/* ---------- Blueprint · light (graph paper) ---------- */
+:root,
+:root[data-theme='blueprint'] {
+  color-scheme: light;
   --paper: #fbfcfd;
   --ink: #15202b;
   --ink-soft: #4a5a6a;
@@ -14,20 +27,37 @@
   --accent: #0a66c2;        /* blueprint blue */
   --accent-2: #c2410c;      /* margin-pen orange/red */
   --accent-3: #047857;      /* green pen */
+  --on-accent: #ffffff;     /* text that sits on --accent */
   --card: rgba(255, 255, 255, 0.72);
   --card-border: rgba(21, 32, 43, 0.18);
   --shadow: 0 1px 0 rgba(21, 32, 43, 0.04), 0 12px 30px -18px rgba(10, 102, 194, 0.30);
 
-  --grid-size: 26px;
-  --maxw: 1080px;
-
+  /* Type: drafting-office geometric + technical mono */
   --font-display: 'Space Grotesk', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', monospace;
   --font-body: 'Inter', system-ui, sans-serif;
+  --font-hand: var(--font-mono);
+  --body-letter-spacing: normal;
+
+  /* fine minor grid + bolder major grid every 4 cells */
+  --surface-image:
+    linear-gradient(var(--grid-minor) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-minor) 1px, transparent 1px),
+    linear-gradient(var(--grid-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-major) 1px, transparent 1px);
+  --surface-size:
+    var(--grid-size) var(--grid-size),
+    var(--grid-size) var(--grid-size),
+    calc(var(--grid-size) * 4) calc(var(--grid-size) * 4),
+    calc(var(--grid-size) * 4) calc(var(--grid-size) * 4);
+  --surface-position: -1px -1px;
+  --surface-repeat: repeat;
 }
 
-:root[data-theme='blueprint'] {
-  /* Dark "blueprint" palette */
+/* ---------- Blueprint · dark ---------- */
+:root[data-mode='dark']:not([data-theme='paper']),
+:root[data-theme='blueprint'][data-mode='dark'] {
+  color-scheme: dark;
   --paper: #071426;
   --ink: #e8f1fb;
   --ink-soft: #9db4cc;
@@ -37,9 +67,111 @@
   --accent: #5aa9ff;
   --accent-2: #ff9e6d;
   --accent-3: #5fe3a1;
+  --on-accent: #071426;
   --card: rgba(12, 30, 54, 0.55);
   --card-border: rgba(120, 180, 255, 0.28);
   --shadow: 0 1px 0 rgba(0,0,0,0.2), 0 18px 40px -20px rgba(0, 0, 0, 0.7);
+}
+
+/* ---------- Paper · light (warm ruled sheet, sepia ink) ---------- */
+:root[data-theme='paper'] {
+  color-scheme: light;
+  --paper: #f6f1e7;
+  --ink: #241d15;
+  --ink-soft: #5a4d3e;
+  --ink-faint: #9b8b78;
+  --grid-minor: rgba(122, 96, 62, 0.16);
+  --grid-major: rgba(122, 96, 62, 0.26);
+  --accent: #8a4f1c;        /* sepia ink */
+  --accent-2: #a32f26;      /* red pen */
+  --accent-3: #3f6b3a;      /* green pen */
+  --on-accent: #fffdf7;
+  --card: #fffdf4;               /* opaque — paper has no glass */
+  --card-border: rgba(36, 29, 21, 0.20);
+  --shadow: 0 1px 0 rgba(36, 29, 21, 0.05), 0 12px 30px -18px rgba(122, 96, 62, 0.45);
+  --paper-glow: rgba(255, 252, 244, 0.9);
+
+  /* Type: book serif, typewriter mono, felt-tip hand for margin notes */
+  --font-display: 'Lora', Georgia, 'Times New Roman', serif;
+  --font-mono: 'Courier Prime', 'Courier New', ui-monospace, monospace;
+  --font-body: 'Lora', Georgia, 'Times New Roman', serif;
+  --font-hand: 'Caveat', 'Segoe Script', cursive;
+  /* Courier runs wide — pull the tracking back so mono rows still fit */
+  --body-letter-spacing: -0.012em;
+
+  /* Notebook stationery */
+  --sheet: #fffdf4;                   /* plain filing sheet, for big panels */
+  --note: #fbf0a4;                    /* sticky yellow */
+  --note-2: #ffd9b2;                  /* peach */
+  --note-3: #d8ecd0;                  /* mint */
+  --note-4: #cfe2f4;                  /* pale blue */
+  --note-fold: rgba(150, 122, 70, 0.42);
+  --note-edge: rgba(120, 96, 54, 0.22);
+  --note-shadow: 0 1px 1px rgba(64, 48, 24, 0.13), 0 12px 18px -14px rgba(64, 48, 24, 0.65);
+  --staple: linear-gradient(180deg, #eceef1 0%, #b0b5bd 42%, #6d727b 100%);
+  --staple-shadow: rgba(52, 42, 26, 0.4);
+  --tape: rgba(240, 230, 190, 0.62);
+  --tape-edge: rgba(190, 172, 120, 0.5);
+  --pin: #b8372c;
+  --pin-hi: #e9756a;
+  --punch: rgba(36, 29, 21, 0.17);    /* three-hole punch */
+  --rule-margin: rgba(163, 47, 38, 0.45);
+  --marker: rgba(255, 226, 84, 0.6);   /* highlighter swipe */
+  --rule-line: rgba(122, 96, 62, 0.30);  /* the line you write on */
+  /* The rule spacing IS the line pitch — text is snapped onto this grid. */
+  --grid-size: 30px;
+  --rule-pitch: var(--grid-size);
+  /* fibre grain, baked as an inline SVG turbulence tile */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23g)' opacity='0.05'/%3E%3C/svg%3E");
+
+  /* Ruled sheet + paper grain over a soft sheet glow. The rule sits in the
+     last pixel of each cell, so writing snapped to the cell rests on it. */
+  --surface-image:
+    linear-gradient(transparent calc(var(--grid-size) - 1px), var(--rule-line) 0),
+    var(--grain),
+    radial-gradient(120% 80% at 50% 0%, var(--paper-glow) 0%, transparent 70%);
+  --surface-size: 100% var(--grid-size), 180px 180px, 100% 100%;
+  --surface-position: 0 0, 0 0, 0 0;
+  --surface-repeat: repeat, repeat, no-repeat;
+}
+
+/* ---------- Paper · dark (lamplit desk) ---------- */
+:root[data-theme='paper'][data-mode='dark'] {
+  color-scheme: dark;
+  --paper: #17130f;
+  --ink: #f0e7d8;
+  --ink-soft: #b8a892;
+  --ink-faint: #7d6f5e;
+  --grid-minor: rgba(224, 196, 150, 0.11);
+  --grid-major: rgba(224, 196, 150, 0.20);
+  --accent: #e2a45f;
+  --accent-2: #f08a72;
+  --accent-3: #9dc47a;
+  --on-accent: #17130f;
+  --card: #241d16;
+  --card-border: rgba(224, 196, 150, 0.24);
+  --shadow: 0 1px 0 rgba(0, 0, 0, 0.25), 0 18px 40px -20px rgba(0, 0, 0, 0.75);
+  --paper-glow: rgba(74, 58, 40, 0.55);
+
+  --sheet: #241d16;
+  --note: #3d3520;
+  --note-2: #3f3024;
+  --note-3: #2a3a2c;
+  --note-4: #26323f;
+  --note-fold: rgba(0, 0, 0, 0.45);
+  --note-edge: rgba(224, 196, 150, 0.16);
+  --note-shadow: 0 1px 1px rgba(0, 0, 0, 0.4), 0 14px 22px -14px rgba(0, 0, 0, 0.9);
+  --staple: linear-gradient(180deg, #cdd2d9 0%, #8f959e 42%, #4e535b 100%);
+  --staple-shadow: rgba(0, 0, 0, 0.7);
+  --tape: rgba(224, 196, 150, 0.13);
+  --tape-edge: rgba(224, 196, 150, 0.22);
+  --pin: #c4483b;
+  --pin-hi: #ef8577;
+  --punch: rgba(0, 0, 0, 0.55);
+  --rule-margin: rgba(240, 138, 114, 0.32);
+  --marker: rgba(226, 164, 95, 0.35);
+  --rule-line: rgba(224, 196, 150, 0.17);
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23g)' opacity='0.075'/%3E%3C/svg%3E");
 }
 
 * { box-sizing: border-box; }
@@ -51,18 +183,13 @@ body {
   font-family: var(--font-body);
   color: var(--ink);
   background-color: var(--paper);
-  /* The graph paper: fine minor grid + bolder major grid every 4 cells */
-  background-image:
-    linear-gradient(var(--grid-minor) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-minor) 1px, transparent 1px),
-    linear-gradient(var(--grid-major) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-major) 1px, transparent 1px);
-  background-size:
-    var(--grid-size) var(--grid-size),
-    var(--grid-size) var(--grid-size),
-    calc(var(--grid-size) * 4) calc(var(--grid-size) * 4),
-    calc(var(--grid-size) * 4) calc(var(--grid-size) * 4);
-  background-position: -1px -1px;
+  /* The sheet itself — graph grid or ruled lines, set by the active theme */
+  background-image: var(--surface-image);
+  background-size: var(--surface-size);
+  background-position: var(--surface-position);
+  background-repeat: var(--surface-repeat);
+  letter-spacing: var(--body-letter-spacing);
+  transition: background-color .25s ease, color .25s ease;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -70,7 +197,7 @@ body {
 
 a { color: inherit; }
 
-::selection { background: var(--accent); color: #fff; }
+::selection { background: var(--accent); color: var(--on-accent); }
 
 /* ---------- Layout ---------- */
 .wrap {
@@ -162,7 +289,7 @@ section { padding: clamp(48px, 9vh, 96px) 0; }
   transition: transform .12s ease, background .15s ease, color .15s ease, border-color .15s;
 }
 .btn:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--accent); }
-.btn--primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn--primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
 .btn--primary:hover { box-shadow: 4px 4px 0 var(--ink); }
 
 /* ---------- Tag chips ---------- */
@@ -195,4 +322,230 @@ section { padding: clamp(48px, 9vh, 96px) 0; }
   :root { --grid-size: 22px; }
   /* let long chips wrap instead of forcing horizontal scroll */
   .chip { white-space: normal; }
+}
+
+/* ============================================================
+   Paper theme — notebook furniture
+
+   Everything below is scoped to [data-theme='paper'] so the
+   blueprint sheet is untouched. Rotations use the standalone
+   `rotate` property, never `transform`, so they compose with the
+   scroll-reveal and hover transforms the pages already own.
+   ============================================================ */
+
+/* ---------- Punched sheet + red margin rule ----------
+   Only once the viewport is wide enough that the furniture sits
+   clear of the text column. */
+@media (min-width: 1260px) {
+  :root[data-theme='paper'] {
+    --surface-image:
+      radial-gradient(circle at 25px 25px, var(--punch) 0 6px, transparent 6.5px),
+      linear-gradient(90deg, var(--rule-margin) 0 1.5px, transparent 1.5px),
+      linear-gradient(transparent calc(var(--grid-size) - 1px), var(--rule-line) 0),
+      var(--grain),
+      radial-gradient(120% 80% at 50% 0%, var(--paper-glow) 0%, transparent 70%);
+    --surface-size:
+      100% 132px,
+      100% 100%,
+      100% var(--grid-size),
+      180px 180px,
+      100% 100%;
+    --surface-position: 0 48px, 58px 0, 0 0, 0 0, 0 0;
+    --surface-repeat: repeat-y, no-repeat, repeat, repeat, no-repeat;
+  }
+}
+
+/* ---------- Cards become sticky notes ---------- */
+:root[data-theme='paper'] .card {
+  background: var(--note);
+  border: 1px solid var(--note-edge);
+  border-radius: 2px;
+  box-shadow: var(--note-shadow);
+  backdrop-filter: none;
+  rotate: -0.55deg;
+}
+/* four pads on the desk, so a grid of notes never looks stamped out */
+:root[data-theme='paper'] .card:nth-child(4n + 2) { background: var(--note-2); rotate: 0.62deg; }
+:root[data-theme='paper'] .card:nth-child(4n + 3) { background: var(--note-3); rotate: -0.28deg; }
+:root[data-theme='paper'] .card:nth-child(4n)     { background: var(--note-4); rotate: 0.4deg; }
+
+/* Big panels are filing sheets, not sticky notes — keeps the hierarchy */
+:root[data-theme='paper'] .card.contact__card,
+:root[data-theme='paper'] .card.proj,
+:root[data-theme='paper'] .card.hero__spec,
+:root[data-theme='paper'] .card.archcard {
+  background: var(--sheet);
+  rotate: -0.22deg;
+}
+
+/* ---------- Fasteners: staple, tape, pushpin ----------
+   Cycled on a 3 so they interleave with the 4-colour note cycle. */
+:root[data-theme='paper'] .card::before {
+  content: '';
+  position: absolute;
+  border: none;
+  width: auto;
+  height: auto;
+  z-index: 2;
+}
+
+/* staple — a folded wire bar pressed into the top-left corner */
+:root[data-theme='paper'] .card:nth-child(3n + 1)::before {
+  top: 9px;
+  left: 13px;
+  width: 23px;
+  height: 5px;
+  background: var(--staple);
+  border-radius: 1px;
+  rotate: -19deg;
+  box-shadow: 0 1px 1.5px var(--staple-shadow);
+}
+
+/* tape — a torn strip across the corner */
+:root[data-theme='paper'] .card:nth-child(3n + 2)::before {
+  top: -9px;
+  left: -13px;
+  width: 68px;
+  height: 21px;
+  background: var(--tape);
+  border-left: 1px dashed var(--tape-edge);
+  border-right: 1px dashed var(--tape-edge);
+  rotate: -38deg;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.10);
+}
+
+/* pushpin — head, with the light coming from the top-left */
+:root[data-theme='paper'] .card:nth-child(3n)::before {
+  top: -7px;
+  left: 50%;
+  width: 15px;
+  height: 15px;
+  margin-left: -7.5px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 30%, var(--pin-hi) 0 22%, var(--pin) 55%, rgba(0, 0, 0, 0.55) 100%);
+  box-shadow: 0 2px 3px -1px var(--staple-shadow);
+}
+
+/* ---------- Dog-eared bottom-right corner ---------- */
+:root[data-theme='paper'] .card::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  top: auto;
+  left: auto;
+  width: 26px;
+  height: 26px;
+  border: none;
+  background: linear-gradient(315deg, var(--paper) 13px, var(--note-fold) 13px);
+}
+
+/* ---------- Chips read as little paper tags ---------- */
+:root[data-theme='paper'] .chip {
+  background: var(--sheet);
+  border-color: var(--note-edge);
+  border-radius: 2px;
+  rotate: -0.4deg;
+}
+:root[data-theme='paper'] .chip:nth-child(even) { rotate: 0.45deg; }
+
+/* ---------- Screenshots taped into the notebook ---------- */
+:root[data-theme='paper'] .shot { position: relative; }
+:root[data-theme='paper'] .shot__frame {
+  border: 5px solid var(--sheet);
+  border-radius: 1px;
+  box-shadow: var(--note-shadow);
+}
+:root[data-theme='paper'] .shot::before,
+:root[data-theme='paper'] .shot::after {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  top: -9px;
+  width: 66px;
+  height: 21px;
+  background: var(--tape);
+  border-left: 1px dashed var(--tape-edge);
+  border-right: 1px dashed var(--tape-edge);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.10);
+}
+:root[data-theme='paper'] .shot::before { left: -12px; rotate: -32deg; }
+:root[data-theme='paper'] .shot::after { right: -12px; rotate: 32deg; }
+
+/* captions written in by hand, under the taped-in print */
+:root[data-theme='paper'] .shot figcaption {
+  font-family: var(--font-hand);
+  font-size: 15px;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+/* ---------- Section heads: pen-numbered, underscored to the title ----------
+   A ruled underline stops where the heading stops — it is drawn under the
+   words, not across the page. */
+:root[data-theme='paper'] .section-head {
+  width: fit-content;
+  max-width: 100%;
+  border-bottom: 3px solid var(--ink);
+  padding-bottom: 9px;
+}
+:root[data-theme='paper'] .section-head .num {
+  font-family: var(--font-hand);
+  font-size: 21px;
+  rotate: -5deg;
+}
+
+/* ---------- Writing sits on the rules ----------
+   Two halves make this work, and both are needed:
+
+   1. Here: every line of writing is one rule tall, so successive lines keep
+      the sheet's cadence instead of drifting across it.
+   2. In plugins/ruleSnap.client.ts: each block is nudged down so its first
+      line starts on a cell boundary. CSS alone cannot do this — the phase
+      of a block depends on the total height of everything above it.
+
+   Text on a sticky note is excluded: the note is opaque and covers the
+   sheet, so there is no rule under it to sit on. */
+:root[data-theme='paper'] main :is(p, dd, blockquote, figcaption):not(.card *):not(.eyebrow),
+:root[data-theme='paper'] li[data-ruled] {
+  line-height: var(--rule-pitch);
+}
+
+/* `li` waits for the snapper's verdict: plenty of lists here are layout
+   (the hero stat row, the case-study contents), not writing, and stretching
+   their line boxes to the rule would wreck them. */
+
+/* Snapped blocks carry the shift as padding, so it is visible in devtools
+   and trivially reversible when the theme changes. */
+:root:not([data-theme='paper']) [data-rule-snap] {
+  padding-top: 0 !important;
+}
+
+@media (max-width: 560px) {
+  :root[data-theme='paper'] { --grid-size: 26px; }
+}
+
+/* ---------- Blueprint speaks in code; paper does not ----------
+   The blueprint sheet is a terminal-adjacent thing: `//` comments, a `>`
+   prompt, a spec sheet named like a file. None of that belongs on a
+   notebook page, so those ornaments are dropped and `.only-hand` alternates
+   take their place. display:none also keeps the hidden variant out of the
+   accessibility tree, so nothing is announced twice. */
+.only-hand { display: none; }
+:root[data-theme='paper'] .only-code { display: none; }
+:root[data-theme='paper'] .only-hand { display: inline; }
+
+/* ---------- Selecting text swipes a highlighter over it ---------- */
+:root[data-theme='paper'] ::selection { background: var(--marker); color: var(--ink); }
+
+/* ---------- Mono runs wide in Courier; let it breathe ---------- */
+:root[data-theme='paper'] .mono,
+:root[data-theme='paper'] .chip,
+:root[data-theme='paper'] .btn,
+:root[data-theme='paper'] .eyebrow { letter-spacing: 0; }
+:root[data-theme='paper'] .eyebrow { font-size: 11px; letter-spacing: 0.12em; }
+
+@media (prefers-reduced-motion: reduce) {
+  /* the notes still sit askew — only motion is dropped elsewhere */
+  :root[data-theme='paper'] .card { transition: none; }
 }
