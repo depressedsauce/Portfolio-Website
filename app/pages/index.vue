@@ -4,6 +4,7 @@ import {
   profile,
   stats,
   skills,
+  projects,
   featuredProject,
   experience,
   certifications
@@ -11,6 +12,9 @@ import {
 
 // The homepage spotlights one project; full detail lives at /projects/<slug>.
 const featured = featuredProject
+// Everything else that has a page of its own, so the spotlight isn't the only
+// way in — otherwise a full case study is reachable only by guessing its URL.
+const otherProjects = projects.filter((p) => p.slug !== featuredProject.slug)
 
 // Typewriter "wheel" for the hero role: types out a role, holds, erases, then
 // rolls the next role into place and types it — cycling through profile.roles.
@@ -196,7 +200,7 @@ onBeforeUnmount(() => clearTimeout(typeTimer))
             <p class="proj__meta mono">{{ featured.period }} · {{ featured.status }}</p>
           </div>
           <div class="proj__headbtns">
-            <NuxtLink class="btn btn--primary" :to="`/projects/${featured.slug}`">Full case study →</NuxtLink>
+            <NuxtLink class="btn btn--primary" :to="`/projects/${featured.slug}`">Read the deep dive →</NuxtLink>
             <a v-if="featured.liveUrl" class="btn" :href="featured.liveUrl" target="_blank" rel="noopener">Live site ↗</a>
           </div>
         </div>
@@ -229,6 +233,24 @@ onBeforeUnmount(() => clearTimeout(typeTimer))
             </div>
             <figcaption class="mono">{{ s.fig }} — {{ s.caption }}</figcaption>
           </figure>
+        </div>
+      </div>
+
+      <!-- everything else with a page of its own -->
+      <div class="more" v-reveal>
+        <h3 class="more__title mono">More work</h3>
+        <div class="more__grid">
+          <NuxtLink
+            v-for="p in otherProjects"
+            :key="p.slug"
+            :to="`/projects/${p.slug}`"
+            class="card more__card"
+          >
+            <span class="more__name">{{ p.name }}</span>
+            <span class="more__meta mono">{{ p.role }} · {{ p.period }}</span>
+            <span class="more__tag">{{ p.tagline }}</span>
+            <span class="more__go mono">Read →</span>
+          </NuxtLink>
         </div>
       </div>
     </div>
@@ -597,6 +619,28 @@ onBeforeUnmount(() => clearTimeout(typeTimer))
 .shot__fig { color: var(--accent); font-size: 13px; }
 .shot__pending { font-size: 11px; letter-spacing: 0.08em; }
 .shot figcaption { margin-top: 8px; font-size: 12px; color: var(--ink-soft); }
+
+/* ---------- MORE WORK ---------- */
+.more { margin-top: 34px; }
+.more__title {
+  font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--ink-faint); margin: 0 0 14px;
+}
+.more__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: 16px;
+}
+.more__card {
+  display: flex; flex-direction: column; gap: 6px;
+  text-decoration: none; color: var(--ink);
+  transition: transform .12s ease, box-shadow .15s ease;
+}
+.more__card:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--accent); }
+.more__name { font-family: var(--font-display); font-weight: 600; font-size: 16px; }
+.more__meta { font-size: 11.5px; color: var(--ink-faint); }
+.more__tag { font-size: 13px; color: var(--ink-soft); line-height: 1.45; margin-top: 2px; }
+.more__go { font-size: 12px; color: var(--accent); margin-top: auto; padding-top: 8px; }
 
 /* ---------- EXPERIENCE ---------- */
 .exp { display: flex; flex-direction: column; gap: 18px; }

@@ -84,7 +84,7 @@ export const skills: { group: string; items: Skill[] }[] = [
       { name: 'GRANT / least-privilege', use: 'Revoke anon/authenticated on admin-only tables beyond RLS.' },
       { name: 'node-postgres (pg)', use: 'Direct Postgres access for scripts and migration tooling.' },
       { name: 'Schema design', use: 'Modelled enrolments, ledgers, documents, and lesson data.' },
-      { name: 'MySQL', use: 'Data management during my early work at 7th Pixel.' }
+      { name: 'MySQL', use: 'Data management during my early work at Lynx ERP Solutions.' }
     ]
   },
   {
@@ -100,7 +100,13 @@ export const skills: { group: string; items: Skill[] }[] = [
       { name: 'HSTS / security headers', use: 'HSTS preload, nosniff, framing, and Permissions-Policy locked down.' },
       { name: 'Honeypot + dwell-time', use: 'Catch bots that fill hidden fields or submit suspiciously fast.', key: true },
       { name: 'IDOR prevention', use: 'Ownership checks so an ID can’t be guessed to reach another account.', key: true },
-      { name: 'Account lifecycle / soft-delete', use: 'Archived/deleted accounts are rejected even with a valid token.' }
+      { name: 'Account lifecycle / soft-delete', use: 'Archived/deleted accounts are rejected even with a valid token.' },
+      { name: 'Least-privilege credentials', use: 'Scoped, non-root tokens for automation — a token can never exceed its user.', key: true },
+      { name: 'Network segmentation', use: 'Lab behind its own firewall; the household stays upstream of it, unaffected.' },
+      { name: 'Internal PKI', use: 'Ran a private certificate authority so internal services get real TLS.' },
+      { name: 'DNS filtering', use: 'Network-level blocking as a layer that covers devices I don’t administer.' },
+      { name: 'Secure Boot / UEFI', use: 'Nodes and guests boot with Secure Boot rather than in legacy BIOS mode.' },
+      { name: 'Credential hygiene', use: 'Cleared inherited BIOS passwords; rotate any secret that touches a screenshot.' }
     ]
   },
   {
@@ -137,7 +143,70 @@ export const skills: { group: string; items: Skill[] }[] = [
       { name: 'ESLint', use: 'Enforces consistent style and catches issues before commit.' },
       { name: 'Sandbox / prod env switching', use: 'One command flips between local sandbox and cloud, with guard rails.' },
       { name: 'SEO (Schema.org · Sitemaps · OG)', use: 'Structured data, sitemaps, and social cards for the public site.' },
-      { name: 'WebP optimization', use: 'Compressed, responsive images for fast page loads.' }
+      { name: 'WebP optimization', use: 'Compressed, responsive images for fast page loads.' },
+      { name: 'Self-hosting', use: 'Run the services I depend on — DNS, proxy, backups — on hardware I own.', key: true },
+      { name: 'Disaster recovery', use: 'Restore drills, and rollback snapshots taken before irreversible changes.' },
+      { name: 'Runbook documentation', use: 'A build log recording 29 diagnosed problems with the reasoning, not just the fix.', key: true },
+      { name: 'Root-cause diagnosis', use: 'Read the error that names the failing layer before changing anything.' },
+      { name: 'Capacity planning', use: 'Match workloads to the resource that actually binds them, and leave the rest alone.' }
+    ]
+  },
+  {
+    group: 'Virtualisation',
+    items: [
+      { name: 'Proxmox VE', use: 'Five hypervisor nodes running every VM and container in the homelab.', key: true },
+      { name: 'KVM / QEMU', use: 'Full VMs for the router, the backup server and the management plane.' },
+      { name: 'LXC containers', use: 'Lightweight guests for the resolver and the reverse proxy.' },
+      { name: 'Datacenter Manager', use: 'One dashboard across standalone nodes over the API — no cluster quorum.', key: true },
+      { name: 'Snapshots & rollback', use: 'Pre/post snapshots around the router cutover, taken with the guest agent live.' },
+      { name: 'virtio / q35 / UEFI', use: 'Paravirtualised NICs and disks on a modern machine type with Secure Boot.' },
+      { name: 'IOMMU / PCIe passthrough', use: 'Verified VT-d groups so the NICs can be passed through directly if needed.' },
+      { name: 'Guest boot ordering', use: 'Start-at-boot and start order so the router comes up before what depends on it.' },
+      { name: 'Storage layout (LVM-thin)', use: 'Hypervisor on its own disk, guests on a separate NVMe thinpool.' }
+    ]
+  },
+  {
+    group: 'Networking & Firewall',
+    items: [
+      { name: 'OPNsense', use: 'Router VM holding the LAN gateway, replacing the ISP box as the edge.', key: true },
+      { name: 'WAN / LAN separation', use: 'Two physically separate NICs rather than one trunked interface.', key: true },
+      { name: 'Linux bridging (vmbr)', use: 'Bridges mapping each physical NIC to the right virtual interface.' },
+      { name: 'Subnetting & static addressing', use: 'A node and service address plan kept clear of every DHCP pool.' },
+      { name: 'Kea DHCP', use: 'Serves the lab, handing out the gateway and the lab’s own resolver.' },
+      { name: 'DNS (AdGuard Home)', use: 'Filtering resolver for the whole LAN, forwarding upstream over DoH.' },
+      { name: 'DNS-over-HTTPS', use: 'Encrypts the upstream hop, where the ISP would otherwise read every query.' },
+      { name: 'Caddy reverse proxy', use: 'Routes every service by name, so nothing is reached by host and port.' },
+      { name: 'Internal CA / TLS', use: 'Issues certificates for internal names — trusted HTTPS with no public DNS.', key: true },
+      { name: 'Tailscale', use: 'Subnet router giving remote access to the lab without an inbound port.' },
+      { name: 'Wake-on-LAN', use: 'Nodes sleep by default and wake on demand, verified end to end.' },
+      { name: 'Network cutover planning', use: 'Sequenced the gateway swap so no address, route or rewrite had to change.', key: true }
+    ]
+  },
+  {
+    group: 'Backup & Recovery',
+    items: [
+      { name: 'Proxmox Backup Server', use: 'Deduplicating datastore on a dedicated node, off the machines it protects.', key: true },
+      { name: 'Restore testing', use: 'Restored a container to a throwaway ID and verified it — a backup, not an assumption.', key: true },
+      { name: 'Prune & garbage collection', use: 'Retention held as datastore policy, so individual jobs cannot drift apart.' },
+      { name: 'Verify jobs / bit rot', use: 'Scheduled verification catches a corrupt chunk before a restore needs it.' },
+      { name: 'Scoped API tokens', use: 'Nodes authenticate with datastore-only rights instead of root.', key: true },
+      { name: 'Off-node copies', use: 'Backups target a different physical machine from the one being backed up.' },
+      { name: 'Config-level backups', use: 'Firewall configuration exported separately as the fast recovery path.' }
+    ]
+  },
+  {
+    group: 'Linux & Systems',
+    items: [
+      { name: 'Debian', use: 'Every node, VM and container in the lab, built and administered from the shell.' },
+      { name: 'Bash', use: 'Node administration, diagnostics, and the wake-on-LAN tooling.' },
+      { name: 'systemd / journalctl', use: 'Where the specific error lives when a web UI only offers a vague one.', key: true },
+      { name: 'apt / deb822 repos', use: 'Signed-By keyrings and archive keys — fixed a repo failing its signature check.' },
+      { name: 'SMART / smartctl', use: 'Audited five disks before use; two were degrading and were retired.', key: true },
+      { name: 'ethtool', use: 'One-shot check for link speed, duplex, and wake-on-LAN arming.' },
+      { name: 'lspci / dmesg', use: 'Confirmed a transplanted NIC by driver binding and its MAC, not by assumption.' },
+      { name: 'ip / iproute2', use: 'Interface state, addressing, and bridges applied without dropping the session.' },
+      { name: 'BIOS / firmware flashing', use: 'Brought five machines to a common firmware baseline with no OS installed.' },
+      { name: 'Hardware diagnostics', use: 'Traced dead boards, wrong-voltage RAM, and unseated cables to root cause.' }
     ]
   },
   {
@@ -261,12 +330,78 @@ export const projects: Project[] = [
     ]
   },
   {
+    slug: 'homelab',
+    name: 'Five-Node Proxmox Infrastructure',
+    tagline:
+      'Five standalone Proxmox nodes that route, resolve, proxy and back up their own network — built on used office hardware and documented decision by decision.',
+    role: 'Architect & operator',
+    period: '2026 — Present',
+    status: 'Live · self-hosted',
+    tags: [
+      'Proxmox VE',
+      'OPNsense',
+      'Linux',
+      'Networking',
+      'DNS',
+      'Backup & recovery',
+      'Caddy',
+      'Tailscale'
+    ],
+    overview: [
+      'Five used Dell OptiPlex machines running Proxmox VE as independent hypervisors, aggregated into one view through Proxmox Datacenter Manager. Deliberately not a cluster: clustering buys a single UI but demands quorum, and quorum conflicts with powering nodes down — to experiment, and to keep a bedroom at a liveable temperature.',
+      'The lab now runs the network it sits on. An OPNsense VM holds the LAN gateway address and serves DHCP pointing at the lab’s own resolver — which is what the whole build was for. The ISP router’s firmware had no field to hand out a DNS server, so clients silently bypassed filtering for weeks before it was caught. That failure mode is now structurally impossible.'
+    ],
+    highlights: [
+      {
+        h: 'The lab routes itself',
+        p: 'An OPNsense VM on a node with two physically separate NICs took over as the LAN gateway; the ISP router moved to its own WAN subnet and became a modem. The cutover ran with zero packet loss on the management link, and household Wi-Fi was never touched.'
+      },
+      {
+        h: 'Names and certificates, not ports',
+        p: 'AdGuard Home filters over DoH, and one wildcard rewrite points every internal name at a Caddy reverse proxy. An internal CA issues the certificates, so services are reachable by name over trusted HTTPS with no per-service certificate work.'
+      },
+      {
+        h: 'Backups that were restored, not assumed',
+        p: 'Proxmox Backup Server on a dedicated node, reached through a scoped API token rather than root, with prune and garbage-collection schedules. A container was restored to a throwaway ID and verified — the step that turns a backup job into a backup.'
+      },
+      {
+        h: 'Hardware verified before it was trusted',
+        p: 'Every disk SMART-audited before anything was committed to it. Two of five were degrading — one with 1,229 ATA errors — and both were retired before they could take data with them. The machines were also sold as wiped and were not.'
+      }
+    ],
+    challenges: [
+      {
+        h: 'Standalone nodes over a cluster',
+        p: 'A cluster gives one dashboard but goes read-only when it loses quorum. In a lab where machines are switched off on purpose, that is the wrong trade — and removing a node from a cluster later is painful. Proxmox Datacenter Manager provides the single view over the API with no quorum constraint.'
+      },
+      {
+        h: 'Getting a wire between two floors',
+        p: 'The longest blocker in the build, and none of it technical. Moving the router died on fibre — the ONT is fixed where the installer drilled. MoCA was the elegant answer until the “coax jack” turned out to be an RJ11 phone jack. Wireless bridging is ruled out by the 802.11 spec itself, which will not let a client relay frames for other MAC addresses. The answer was 150 ft of flat Cat6 for $36.'
+      },
+      {
+        h: 'Sequencing so a mistake could not strand the lab',
+        p: 'The router cutover was built last, not first. The second NIC, the bridge, the VM, its firmware and the interface assignment were all in place and verified before anything touched the address the lab was reached on — so the one step that could sever remote access was taken with a lifeline running.'
+      },
+      {
+        h: 'Choosing not to do the satisfying thing',
+        p: 'RAM sits unevenly across the nodes and the arithmetic to balance it works. It was left alone: nothing is memory-constrained except the node that already has the most, so the change would optimise nothing. A rebalance backed by evidence is worth doing; one backed by tidiness is not.'
+      }
+    ],
+    gallery: [
+      { fig: 'fig. 01', src: '/shots/homelab/datacenter-manager.png', caption: 'Datacenter Manager — five standalone nodes and every guest in one view, without a cluster' },
+      { fig: 'fig. 02', src: '/shots/homelab/opnsense.png', caption: 'OPNsense — the lab’s own gateway, WAN and LAN on physically separate interfaces (gateway address and version detail redacted)' },
+      { fig: 'fig. 03', src: '/shots/homelab/backup-server.png', caption: 'Backup Server — a 290 GB datastore, with the router and manager VMs backing up nightly' },
+      { fig: 'fig. 04', src: '/shots/homelab/adguard.png', caption: 'AdGuard Home — 13,316 queries in 24 hours, 21% blocked, 10 ms average response' },
+      { fig: 'fig. 05', src: '/shots/homelab/proxmox-node.png', caption: 'pve1 — DNS, reverse proxy and the manager VM, with guest storage on its own NVMe pool' }
+    ]
+  },
+  {
     slug: 'tamil-heritage-month',
     name: 'Tamil Heritage Month',
     tagline:
       'A content-driven heritage website built end-to-end in the Divi theme builder, including a full hosting + domain migration.',
     role: 'Web Developer',
-    period: 'Dec 2022 — Present',
+    period: 'Dec 2022 — 2025',
     status: 'Live · maintained',
     liveUrl: 'https://tamilheritagemonth.com/',
     tags: ['WordPress', 'Divi Builder', 'DNS / Nameservers', 'Hosting migration', 'Responsive design'],
@@ -285,22 +420,22 @@ export const projects: Project[] = [
       }
     ],
     gallery: [
-      { fig: 'fig. 01', src: '', caption: 'Home page — heritage hero & event sections' },
-      { fig: 'fig. 02', src: '', caption: 'Custom Divi content layout' }
+      { fig: 'fig. 01', src: '/shots/thm/home-hero.png', caption: 'Home page — bilingual hero over the year’s commissioned artwork, with the council seal' },
+      { fig: 'fig. 02', src: '/shots/thm/events.png', caption: 'Events section — the January programme as an expandable Divi listing' }
     ]
   },
   {
     slug: '7th-pixel-qa',
-    name: '7th Pixel — QA Tester',
+    name: 'Lynx ERP Solutions — QA Tester',
     tagline:
       'Ongoing QA role: testing client websites, giving structured feedback, and recording and fixing the issues that turn up.',
     role: 'QA Tester',
     period: '2020 — Present',
     status: 'Ongoing',
-    liveUrl: 'https://www.7thpixel.ca/',
+    liveUrl: 'https://lynxerp.ca/',
     tags: ['QA', 'Manual testing', 'Bug tracking', 'Cross-browser', 'UX feedback'],
     overview: [
-      'Alongside my earlier internship, I do ongoing QA work for 7th Pixel. My focus is making sure client websites actually behave the way they should — before and after they ship.',
+      'Alongside my earlier internship, I do ongoing QA work for Lynx ERP Solutions. My focus is making sure client websites actually behave the way they should — before and after they ship.',
       'Day to day that means testing sites across browsers and devices, writing up the defects and UX problems I find with clear reproduction steps, feeding that back to the development team, and then recording and helping fix each issue through to a verified resolution.'
     ],
     highlights: [
@@ -321,16 +456,16 @@ export const projects: Project[] = [
   },
   {
     slug: '7th-pixel',
-    name: '7th Pixel — Internship',
+    name: 'Lynx ERP Solutions — Internship',
     tagline:
       'Summer web-development internship: contributed to client site builds in HTML/PHP and supported MySQL data management.',
     role: 'Web Development Intern',
     period: 'Jun 2019 — Aug 2019',
     status: 'Completed',
-    liveUrl: 'https://www.7thpixel.ca/',
+    liveUrl: 'https://lynxerp.ca/',
     tags: ['HTML', 'PHP', 'MySQL', 'Web development'],
     overview: [
-      'My first professional web-development role. At 7th Pixel I contributed to client website builds using HTML and PHP and supported data management in MySQL.',
+      'My first professional web-development role. At Lynx ERP Solutions I contributed to client website builds using HTML and PHP and supported data management in MySQL.',
       'It was my early exposure to the data and server layer — the foundation for the WordPress / LAMP work and, later, the full-stack Postgres applications I build today.'
     ],
     highlights: [
@@ -359,7 +494,7 @@ export const experience = [
   {
     role: 'Web Developer',
     org: 'Tamil Heritage Month',
-    period: 'Dec 2022 — Present',
+    period: 'Dec 2022 — 2025',
     link: 'https://tamilheritagemonth.com/',
     slug: 'tamil-heritage-month',
     points: [
@@ -369,9 +504,9 @@ export const experience = [
   },
   {
     role: 'QA Tester',
-    org: '7th Pixel',
+    org: 'Lynx ERP Solutions',
     period: '2020 — Present',
-    link: 'https://www.7thpixel.ca/',
+    link: 'https://lynxerp.ca/',
     slug: '7th-pixel-qa',
     points: [
       'Test client websites across browsers and devices, documenting defects and UX issues with clear reproduction steps.',
@@ -381,9 +516,9 @@ export const experience = [
   },
   {
     role: 'Web Development Intern',
-    org: '7th Pixel',
+    org: 'Lynx ERP Solutions',
     period: 'Jun 2019 — Aug 2019',
-    link: 'https://www.7thpixel.ca/',
+    link: 'https://lynxerp.ca/',
     slug: '7th-pixel',
     points: [
       'Contributed to client website builds using HTML and PHP.',

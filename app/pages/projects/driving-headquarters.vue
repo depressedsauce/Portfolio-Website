@@ -1,8 +1,8 @@
 <script setup lang="ts">
-// Dedicated deep-dive case study for Driving Headquarters.
+// Dedicated architecture & design deep dive for Driving Headquarters.
 // This static route takes precedence over the generic [slug].vue page.
 useHead({
-  title: 'Driving Headquarters Platform — Case Study — Mohaimmen Bajwa',
+  title: 'Driving Headquarters Platform — Deep Dive — Mohaimmen Bajwa',
   meta: [
     {
       name: 'description',
@@ -25,6 +25,8 @@ const toc = [
   { id: 'decisions', label: 'Key design decisions' },
   { id: 'stack', label: 'Stack & takeaways' }
 ]
+
+const activeSection = useScrollSpy(toc.map((t) => t.id))
 
 // Redacted product screenshots. All student/instructor PII (names, emails,
 // licences, phone numbers) is irreversibly masked.
@@ -55,7 +57,7 @@ const shots = [
 
       <!-- hero -->
       <header class="cs__hero">
-        <p class="eyebrow"><span class="only-code">//</span>case study · architecture &amp; design deep dive</p>
+        <p class="eyebrow"><span class="only-code">//</span>architecture &amp; design deep dive</p>
         <h1 class="cs__title">Driving Headquarters Platform</h1>
         <p class="cs__lede">
           How a multi-location driving school's marketing site grew into a single-codebase
@@ -76,7 +78,13 @@ const shots = [
         <aside class="cs__tocwrap">
           <p class="cs__toctitle mono">Contents</p>
           <ol class="cs__toc">
-            <li v-for="t in toc" :key="t.id"><a :href="`#${t.id}`">{{ t.label }}</a></li>
+            <li v-for="t in toc" :key="t.id">
+              <a
+                :href="`#${t.id}`"
+                :class="{ 'is-active': activeSection === t.id }"
+                :aria-current="activeSection === t.id ? 'true' : undefined"
+              >{{ t.label }}</a>
+            </li>
           </ol>
         </aside>
 
@@ -543,20 +551,51 @@ const shots = [
 .cs__meta .v { color: var(--ink); }
 
 /* layout w/ sticky TOC */
-.cs__layout { display: grid; grid-template-columns: 220px 1fr; gap: 48px; }
-.cs__tocwrap { position: sticky; top: 84px; align-self: start; max-height: calc(100vh - 100px); overflow-y: auto; padding-top: 38px; }
+.cs__layout { display: grid; grid-template-columns: 228px 1fr; gap: 48px; }
+.cs__tocwrap {
+  position: sticky; top: 84px; align-self: start;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto; overflow-x: hidden;
+  padding-top: 38px; padding-right: 8px;
+}
 .cs__toctitle { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-faint); margin: 0 0 12px; }
+/* Courier sits lighter than the serif list beneath it, so paper needs more
+   weight here to read as a heading rather than a caption. */
+:root[data-theme='paper'] .cs__toctitle {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--ink-soft);
+  margin-bottom: 14px;
+}
 .cs__toc { list-style: none; margin: 0; padding: 0; counter-reset: toc; }
 .cs__toc a {
   display: block; padding: 6px 0 6px 28px; position: relative;
   font-size: 13px; color: var(--ink-soft); border-left: 1px solid var(--card-border); line-height: 1.4;
   text-decoration: none;
+  border-radius: 0 4px 4px 0;
+  transition: transform .22s cubic-bezier(.22, 1, .36, 1), color .2s ease,
+    border-color .2s ease, background-color .2s ease;
 }
 .cs__toc a::before {
   counter-increment: toc; content: counter(toc, decimal-leading-zero);
   position: absolute; left: 6px; top: 8px; font-family: var(--font-mono); font-size: 10px; color: var(--ink-faint);
 }
 .cs__toc a:hover { color: var(--ink); border-left-color: var(--accent); }
+
+/* the section the reader is currently in — nudged out of the rail and tinted */
+.cs__toc a.is-active {
+  color: var(--ink);
+  border-left-color: var(--accent);
+  background-color: color-mix(in srgb, var(--accent) 12%, transparent);
+  transform: translateX(6px);
+}
+.cs__toc a.is-active::before { color: var(--accent); }
+
+@media (prefers-reduced-motion: reduce) {
+  /* keep the offset, drop the travel */
+  .cs__toc a { transition: none; }
+}
 
 /* body sections */
 .cs__body { min-width: 0; padding-top: 8px; }
@@ -627,16 +666,21 @@ const shots = [
 .layers.steps .layer { grid-template-columns: 130px 1fr; }
 
 /* code blocks */
+/* token-based so the block follows the sheet it sits on, rather than
+   staying blueprint-navy on the paper theme */
 .cs__body pre {
-  background: #071426;
-  border: 1px solid rgba(120, 180, 255, 0.18);
+  background: color-mix(in srgb, var(--ink) 5%, var(--paper));
+  border: 1px solid var(--card-border);
   border-radius: 8px; padding: 16px 18px; overflow-x: auto; margin: 18px 0;
 }
-.cs__body pre code { font-family: var(--font-mono); font-size: 12.6px; line-height: 1.6; color: #c9d6e6; background: none; border: none; padding: 0; }
-.cs__body pre .c { color: #6f859f; }
-.cs__body pre .k { color: #7eb0fb; }
-.cs__body pre .s { color: #b8e0a0; }
-.cs__body pre .f { color: #e0a868; }
+.cs__body pre code {
+  font-family: var(--font-mono); font-size: 12.6px; line-height: 1.6;
+  color: var(--ink); background: none; border: none; padding: 0;
+}
+.cs__body pre .c { color: var(--ink-faint); }
+.cs__body pre .k { color: var(--accent); }
+.cs__body pre .s { color: var(--accent-3); }
+.cs__body pre .f { color: var(--accent-2); }
 /* inline code */
 .cs__body :not(pre) > code {
   font-family: var(--font-mono); font-size: 0.85em;
