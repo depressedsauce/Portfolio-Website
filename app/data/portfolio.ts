@@ -321,12 +321,12 @@ export const projects: Project[] = [
       }
     ],
     gallery: [
-      { fig: 'fig. 01', src: '/shots/dhq/student-console.png', caption: 'Student console — the gamified “driver dossier” dashboard' },
-      { fig: 'fig. 02', src: '/shots/dhq/admin-dashboard.png', caption: 'Admin dashboard — revenue, balances & what needs attention' },
-      { fig: 'fig. 03', src: '/shots/dhq/admin-email-intake.png', caption: 'Email intake — the human-reviewed document-ingest queue' },
-      { fig: 'fig. 04', src: '/shots/dhq/admin-registrations.png', caption: 'Registrations — public-site leads triaged to enrolment (PII redacted)' },
-      { fig: 'fig. 05', src: '/shots/dhq/admin-analytics.png', caption: 'Analytics — period KPIs and lifetime metrics' },
-      { fig: 'fig. 06', src: '/shots/dhq/student-field-guide.png', caption: 'Student console, themed — the dashboard is fully themeable' }
+      { fig: 'fig. 01', src: '/shots/dhq/student-console.webp', caption: 'Student console — the gamified “driver dossier” dashboard' },
+      { fig: 'fig. 02', src: '/shots/dhq/admin-dashboard.webp', caption: 'Admin dashboard — revenue, balances & what needs attention' },
+      { fig: 'fig. 03', src: '/shots/dhq/admin-email-intake.webp', caption: 'Email intake — the human-reviewed document-ingest queue' },
+      { fig: 'fig. 04', src: '/shots/dhq/admin-registrations.webp', caption: 'Registrations — public-site leads triaged to enrolment (PII redacted)' },
+      { fig: 'fig. 05', src: '/shots/dhq/admin-analytics.webp', caption: 'Analytics — period KPIs and lifetime metrics' },
+      { fig: 'fig. 06', src: '/shots/dhq/student-field-guide.webp', caption: 'Student console, themed — the dashboard is fully themeable' }
     ]
   },
   {
@@ -388,11 +388,11 @@ export const projects: Project[] = [
       }
     ],
     gallery: [
-      { fig: 'fig. 01', src: '/shots/homelab/datacenter-manager.png', caption: 'Datacenter Manager — five standalone nodes and every guest in one view, without a cluster' },
-      { fig: 'fig. 02', src: '/shots/homelab/opnsense.png', caption: 'OPNsense — the lab’s own gateway, WAN and LAN on physically separate interfaces (gateway address and version detail redacted)' },
-      { fig: 'fig. 03', src: '/shots/homelab/backup-server.png', caption: 'Backup Server — a 290 GB datastore, with the router and manager VMs backing up nightly' },
-      { fig: 'fig. 04', src: '/shots/homelab/adguard.png', caption: 'AdGuard Home — 13,316 queries in 24 hours, 21% blocked, 10 ms average response' },
-      { fig: 'fig. 05', src: '/shots/homelab/proxmox-node.png', caption: 'pve1 — DNS, reverse proxy and the manager VM, with guest storage on its own NVMe pool' }
+      { fig: 'fig. 01', src: '/shots/homelab/datacenter-manager.webp', caption: 'Datacenter Manager — five standalone nodes and every guest in one view, without a cluster' },
+      { fig: 'fig. 02', src: '/shots/homelab/opnsense.webp', caption: 'OPNsense — the lab’s own gateway, WAN and LAN on physically separate interfaces (gateway address and version detail redacted)' },
+      { fig: 'fig. 03', src: '/shots/homelab/backup-server.webp', caption: 'Backup Server — a 290 GB datastore, with the router and manager VMs backing up nightly' },
+      { fig: 'fig. 04', src: '/shots/homelab/adguard.webp', caption: 'AdGuard Home — 13,316 queries in 24 hours, 21% blocked, 10 ms average response' },
+      { fig: 'fig. 05', src: '/shots/homelab/proxmox-node.webp', caption: 'pve1 — DNS, reverse proxy and the manager VM, with guest storage on its own NVMe pool' }
     ]
   },
   {
@@ -420,61 +420,11 @@ export const projects: Project[] = [
       }
     ],
     gallery: [
-      { fig: 'fig. 01', src: '/shots/thm/home-hero.png', caption: 'Home page — bilingual hero over the year’s commissioned artwork, with the council seal' },
-      { fig: 'fig. 02', src: '/shots/thm/events.png', caption: 'Events section — the January programme as an expandable Divi listing' }
+      { fig: 'fig. 01', src: '/shots/thm/home-hero.webp', caption: 'Home page — bilingual hero over the year’s commissioned artwork, with the council seal' },
+      { fig: 'fig. 02', src: '/shots/thm/events.webp', caption: 'Events section — the January programme as an expandable Divi listing' }
     ]
   },
-  {
-    slug: '7th-pixel-qa',
-    name: 'Lynx ERP Solutions — QA Tester',
-    tagline:
-      'Ongoing QA role: testing client websites, giving structured feedback, and recording and fixing the issues that turn up.',
-    role: 'QA Tester',
-    period: '2020 — Present',
-    status: 'Ongoing',
-    liveUrl: 'https://lynxerp.ca/',
-    tags: ['QA', 'Manual testing', 'Bug tracking', 'Cross-browser', 'UX feedback'],
-    overview: [
-      'Alongside my earlier internship, I do ongoing QA work for Lynx ERP Solutions. My focus is making sure client websites actually behave the way they should — before and after they ship.',
-      'Day to day that means testing sites across browsers and devices, writing up the defects and UX problems I find with clear reproduction steps, feeding that back to the development team, and then recording and helping fix each issue through to a verified resolution.'
-    ],
-    highlights: [
-      {
-        h: 'Testing',
-        p: 'Exercise client sites across browsers and devices to surface functional and UX issues before users hit them.'
-      },
-      {
-        h: 'Feedback',
-        p: 'Document findings with clear, reproducible steps and give the development team structured, actionable feedback.'
-      },
-      {
-        h: 'Record & fix',
-        p: 'Log and triage every issue, then help fix it and verify the fix — closing the loop from report to resolution.'
-      }
-    ],
-    gallery: []
-  },
-  {
-    slug: '7th-pixel',
-    name: 'Lynx ERP Solutions — Internship',
-    tagline:
-      'Summer web-development internship: contributed to client site builds in HTML/PHP and supported MySQL data management.',
-    role: 'Web Development Intern',
-    period: 'Jun 2019 — Aug 2019',
-    status: 'Completed',
-    liveUrl: 'https://lynxerp.ca/',
-    tags: ['HTML', 'PHP', 'MySQL', 'Web development'],
-    overview: [
-      'My first professional web-development role. At Lynx ERP Solutions I contributed to client website builds using HTML and PHP and supported data management in MySQL.',
-      'It was my early exposure to the data and server layer — the foundation for the WordPress / LAMP work and, later, the full-stack Postgres applications I build today.'
-    ],
-    highlights: [
-      { h: 'Client site builds', p: 'Helped develop websites using HTML and PHP across multiple client projects.' },
-      { h: 'Data management', p: 'Supported MySQL-backed data management tasks and dynamic pages.' }
-    ],
-    gallery: []
-  }
-]
+    ]
 
 export const featuredProject = projects.find((p) => p.featured) ?? projects[0]!
 
@@ -507,7 +457,6 @@ export const experience = [
     org: 'Lynx ERP Solutions',
     period: '2020 — Present',
     link: 'https://lynxerp.ca/',
-    slug: '7th-pixel-qa',
     points: [
       'Test client websites across browsers and devices, documenting defects and UX issues with clear reproduction steps.',
       'Give structured feedback to the development team and track each issue through to resolution.',
@@ -519,7 +468,6 @@ export const experience = [
     org: 'Lynx ERP Solutions',
     period: 'Jun 2019 — Aug 2019',
     link: 'https://lynxerp.ca/',
-    slug: '7th-pixel',
     points: [
       'Contributed to client website builds using HTML and PHP.',
       'Supported MySQL data management — early exposure to the data + server layer that informs current work.'

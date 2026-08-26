@@ -31,18 +31,18 @@ const activeSection = useScrollSpy(toc.map((t) => t.id))
 // Redacted product screenshots. All student/instructor PII (names, emails,
 // licences, phone numbers) is irreversibly masked.
 const shots = [
-  { src: '/shots/dhq/admin-dashboard.png', cap: 'Admin dashboard — the daily operational pulse: revenue, outstanding balances, pending registrations and what needs attention.' },
-  { src: '/shots/dhq/admin-analytics.png', cap: 'Analytics — period KPIs (revenue, enrolments, lessons, pass rate) alongside lifetime metrics and monthly trends.' },
-  { src: '/shots/dhq/admin-students.png', cap: 'Student directory — a unified view of auth-backed and legacy-archive students with status, package and balance filters.' },
-  { src: '/shots/dhq/admin-registrations.png', cap: 'Registrations — incoming leads from the public site, triaged through submitted → in-review → invited → enrolled.' },
-  { src: '/shots/dhq/admin-instructors.png', cap: 'Instructors — vehicles, licensing, expenses and incidents, with active/total load per instructor.' },
-  { src: '/shots/dhq/admin-email-intake.png', cap: 'Email intake — every forwarded email waits for human review; nothing auto-files. The heart of the document-ingest pipeline.' },
-  { src: '/shots/dhq/admin-bulk-ingest.png', cap: 'Bulk document ingest — upload many files at once; each is parsed, fingerprinted, matched to a student and queued for review.' },
-  { src: '/shots/dhq/admin-support.png', cap: 'Support — student help conversations from the portal, mirrored onto each student’s dossier.' },
-  { src: '/shots/dhq/admin-profile.png', cap: 'Admin profile — TOTP two-factor enrolment and password management for staff accounts.' },
-  { src: '/shots/dhq/student-console.png', cap: 'Student console — a gamified “driver dossier”: lessons logged, in-car hours, theory status and a one-tap book-a-lesson.' },
-  { src: '/shots/dhq/student-field-guide.png', cap: 'Student console, themed — the same dashboard rendered as a “field guide”. The UI is fully themeable per student.' },
-  { src: '/shots/dhq/student-profile.png', cap: 'Student profile — personal info, emergency contact and security settings (all personal data redacted here).' }
+  { src: '/shots/dhq/admin-dashboard.webp', cap: 'Admin dashboard — the daily operational pulse: revenue, outstanding balances, pending registrations and what needs attention.' },
+  { src: '/shots/dhq/admin-analytics.webp', cap: 'Analytics — period KPIs (revenue, enrolments, lessons, pass rate) alongside lifetime metrics and monthly trends.' },
+  { src: '/shots/dhq/admin-students.webp', cap: 'Student directory — a unified view of auth-backed and legacy-archive students with status, package and balance filters.' },
+  { src: '/shots/dhq/admin-registrations.webp', cap: 'Registrations — incoming leads from the public site, triaged through submitted → in-review → invited → enrolled.' },
+  { src: '/shots/dhq/admin-instructors.webp', cap: 'Instructors — vehicles, licensing, expenses and incidents, with active/total load per instructor.' },
+  { src: '/shots/dhq/admin-email-intake.webp', cap: 'Email intake — every forwarded email waits for human review; nothing auto-files. The heart of the document-ingest pipeline.' },
+  { src: '/shots/dhq/admin-bulk-ingest.webp', cap: 'Bulk document ingest — upload many files at once; each is parsed, fingerprinted, matched to a student and queued for review.' },
+  { src: '/shots/dhq/admin-support.webp', cap: 'Support — student help conversations from the portal, mirrored onto each student’s dossier.' },
+  { src: '/shots/dhq/admin-profile.webp', cap: 'Admin profile — TOTP two-factor enrolment and password management for staff accounts.' },
+  { src: '/shots/dhq/student-console.webp', cap: 'Student console — a gamified “driver dossier”: lessons logged, in-car hours, theory status and a one-tap book-a-lesson.' },
+  { src: '/shots/dhq/student-field-guide.webp', cap: 'Student console, themed — the same dashboard rendered as a “field guide”. The UI is fully themeable per student.' },
+  { src: '/shots/dhq/student-profile.webp', cap: 'Student profile — personal info, emergency contact and security settings (all personal data redacted here).' }
 ]
 </script>
 

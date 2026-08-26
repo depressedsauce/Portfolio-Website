@@ -470,6 +470,10 @@ onBeforeUnmount(() => clearTimeout(typeTimer))
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
   gap: 18px;
+  /* Cards size to their own content. Stretching them to the tallest in the row
+     leaves dead space under the short ones — invisible on a transparent card,
+     glaring on a paper theme sticky note. */
+  align-items: start;
 }
 .skills__title { font-size: 13px; color: var(--accent); margin: 0 0 14px; transition: color .18s; }
 .skills__chips { display: flex; flex-wrap: wrap; gap: 8px; }

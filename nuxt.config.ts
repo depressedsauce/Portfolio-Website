@@ -22,7 +22,24 @@ export default defineNuxtConfig({
           content:
             'Full-stack developer building production Vue/Nuxt + Supabase apps. 5+ years shipping client websites.'
         },
-        { property: 'og:type', content: 'website' }
+        { property: 'og:type', content: 'website' },
+        { property: 'og:url', content: 'https://madebymo.dev/' },
+        { property: 'og:image', content: 'https://madebymo.dev/og-image.png' },
+        { property: 'og:image:width', content: '1200' },
+        { property: 'og:image:height', content: '630' },
+        {
+          property: 'og:image:alt',
+          content: 'Mohaimmen Bajwa \u2014 Full-Stack Web Developer, Richmond Hill, Ontario'
+        },
+        // Without this the card renders as a small thumbnail beside the text.
+        { name: 'twitter:card', content: 'summary_large_image' },
+        { name: 'twitter:title', content: 'Mohaimmen Bajwa \u2014 Full-Stack Web Developer' },
+        {
+          name: 'twitter:description',
+          content:
+            'Full-stack developer building production Vue/Nuxt + Supabase apps. 5+ years shipping client websites.'
+        },
+        { name: 'twitter:image', content: 'https://madebymo.dev/og-image.png' }
       ],
       // Resolve the theme before first paint so there is no flash of the
       // wrong sheet. Mirrors the logic in TheHeader.vue.
@@ -30,6 +47,8 @@ export default defineNuxtConfig({
         {
           tagPosition: 'head',
           innerHTML: `(function(){try{var d=document.documentElement,ls=localStorage;` +
+            // scroll-reveal only hides things when JS can un-hide them again
+            `d.classList.add('js');` +
             `var t=ls.getItem('portfolio-theme-name');var m=ls.getItem('portfolio-color-mode');` +
             `if(!m){var l=ls.getItem('portfolio-theme');if(l==='blueprint')m='dark';else if(l==='light')m='light';}` +
             `if(!m)m=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';` +
@@ -38,6 +57,7 @@ export default defineNuxtConfig({
         }
       ],
       link: [
+        { rel: 'canonical', href: 'https://madebymo.dev/' },
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
         {

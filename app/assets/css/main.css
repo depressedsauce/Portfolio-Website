@@ -101,10 +101,10 @@
 
   /* Notebook stationery */
   --sheet: #fffdf4;                   /* plain filing sheet, for big panels */
-  --note: #fbf0a4;                    /* sticky yellow */
-  --note-2: #ffd9b2;                  /* peach */
-  --note-3: #d8ecd0;                  /* mint */
-  --note-4: #cfe2f4;                  /* pale blue */
+  --note: #f7efc9;                    /* sticky yellow */
+  --note-2: #f6e3d0;                  /* peach */
+  --note-3: #e4ecdc;                  /* mint */
+  --note-4: #dfe6ef;                  /* pale blue */
   --note-fold: rgba(150, 122, 70, 0.42);
   --note-edge: rgba(120, 96, 54, 0.22);
   --note-shadow: 0 1px 1px rgba(64, 48, 24, 0.13), 0 12px 18px -14px rgba(64, 48, 24, 0.65);
@@ -154,10 +154,10 @@
   --paper-glow: rgba(74, 58, 40, 0.55);
 
   --sheet: #241d16;
-  --note: #3d3520;
-  --note-2: #3f3024;
-  --note-3: #2a3a2c;
-  --note-4: #26323f;
+  --note: #2b2519;
+  --note-2: #2c241c;
+  --note-3: #262a24;
+  --note-4: #25272d;
   --note-fold: rgba(0, 0, 0, 0.45);
   --note-edge: rgba(224, 196, 150, 0.16);
   --note-shadow: 0 1px 1px rgba(0, 0, 0, 0.4), 0 14px 22px -14px rgba(0, 0, 0, 0.9);
@@ -305,15 +305,17 @@ section { padding: clamp(48px, 9vh, 96px) 0; }
 }
 
 /* ---------- Reveal on scroll ---------- */
-.reveal {
+/* Scoped to html.js, set by the pre-paint script: with JS disabled the rules
+   never apply and the content is simply visible. */
+html.js .reveal {
   opacity: 0;
   transform: translateY(18px);
   transition: opacity .6s ease, transform .6s ease;
 }
-.reveal.is-visible { opacity: 1; transform: none; }
+html.js .reveal.is-visible { opacity: 1; transform: none; }
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal { opacity: 1; transform: none; transition: none; }
+  html.js .reveal { opacity: 1; transform: none; transition: none; }
   html { scroll-behavior: auto; }
 }
 
@@ -424,6 +426,24 @@ section { padding: clamp(48px, 9vh, 96px) 0; }
   border-radius: 50%;
   background: radial-gradient(circle at 34% 30%, var(--pin-hi) 0 22%, var(--pin) 55%, rgba(0, 0, 0, 0.55) 100%);
   box-shadow: 0 2px 3px -1px var(--staple-shadow);
+}
+
+/* A taped note gets a strip on each top corner. One strip reads as though the
+   note is hanging off it; two read as secured. These override the dog-ear,
+   which a taped note has no need of. */
+:root[data-theme='paper'] .card:nth-child(3n + 2)::after {
+  top: -9px;
+  right: -13px;
+  bottom: auto;
+  left: auto;
+  width: 68px;
+  height: 21px;
+  background: var(--tape);
+  border-left: 1px dashed var(--tape-edge);
+  border-right: 1px dashed var(--tape-edge);
+  border-radius: 0;
+  rotate: 38deg;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.10);
 }
 
 /* ---------- Dog-eared bottom-right corner ---------- */
