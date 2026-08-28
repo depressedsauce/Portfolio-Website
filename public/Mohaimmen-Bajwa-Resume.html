@@ -81,7 +81,8 @@
 Full-stack web developer with 6+ years of production experience shipping client websites, now focused on
 Vue/Nuxt + Postgres applications. I design and run a multi-tenant SaaS platform covering authentication,
 payments, scheduling, document ingestion, and a Capacitor-based Android tracker — all on a single Nuxt 4
-codebase backed by Supabase Postgres with row-level security.
+codebase backed by Supabase Postgres with row-level security. Alongside it I design and operate a
+five-node virtualisation platform that routes, resolves, proxies and backs up its own network.
 </p>
 
 <h2>Skills</h2>
@@ -91,6 +92,7 @@ codebase backed by Supabase Postgres with row-level security.
 <div class="kv"><b>Database:</b> Postgres, Supabase, Row-Level Security, JWT custom claims, SQL migrations, schema design, MySQL</div>
 <div class="kv"><b>Auth &amp; Security:</b> Supabase Auth, CSP (per-request nonce + strict-dynamic), CSRF, rate-limiting, reCAPTCHA v3, role-based access, HSTS / security headers, IDOR prevention</div>
 <div class="kv"><b>Integrations &amp; Mobile:</b> Moneris Hosted Checkout, Resend (incl. Inbound), IMAP (imapflow), Leaflet, Interac e-Transfer, Capacitor 6, Android, background geolocation</div>
+<div class="kv"><b>Infrastructure &amp; Networking:</b> Proxmox VE, OPNsense, Linux (Debian), KVM / LXC, DNS &amp; DHCP, DNS-over-HTTPS, Caddy reverse proxy, internal CA / TLS, Tailscale, Proxmox Backup Server, subnetting, Wake-on-LAN</div>
 <div class="kv"><b>DevOps &amp; Tooling:</b> Git, Supabase CLI, Docker, Playwright (E2E), ESLint, SEO (Schema.org / Sitemaps / OG), WordPress (Elementor, Divi, WP Rocket, Wordfence)</div>
 
 <h2>Experience</h2>
@@ -111,7 +113,7 @@ codebase backed by Supabase Postgres with row-level security.
 
 <div class="entry">
   <div class="title"><b>Web Developer</b>, Tamil Heritage Month</div>
-  <div class="date">Dec 2022 — Present</div>
+  <div class="date">Dec 2022 — 2025</div>
 </div>
 <ul>
   <li>Built the site end-to-end in the Divi theme builder with custom layouts and brand styling for a content-heavy, editor-friendly community site.</li>
@@ -135,6 +137,18 @@ codebase backed by Supabase Postgres with row-level security.
 <ul>
   <li>Contributed to client website builds using HTML and PHP across multiple client projects.</li>
   <li>Supported MySQL-backed data management — early exposure to the data and server layer that informs my current full-stack work.</li>
+</ul>
+
+<h2>Projects</h2>
+
+<div class="entry">
+  <div class="title"><b>Five-Node Proxmox Infrastructure</b> — self-hosted</div>
+  <div class="date">2026 — Present</div>
+</div>
+<ul>
+  <li>Built five standalone Proxmox VE nodes from second-hand office hardware, deliberately avoiding a cluster because quorum requirements conflict with powering nodes down; aggregated into one view through Proxmox Datacenter Manager.</li>
+  <li>Replaced the ISP router as LAN gateway with an OPNsense VM on two physically separate NICs, sequencing the cutover so that no address, static route, or DNS rewrite had to change.</li>
+  <li>Operate filtering DNS over DoH, a Caddy reverse proxy issuing certificates from an internal CA, Tailscale remote access with no inbound ports, and Proxmox Backup Server with scoped API tokens and restores verified against a throwaway target rather than assumed.</li>
 </ul>
 
 <h2>Certifications</h2>
